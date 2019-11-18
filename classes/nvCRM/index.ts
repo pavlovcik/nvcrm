@@ -47,7 +47,7 @@ export default class nvCRM {
 		return {
 			meta: {
 				type: "proposal",
-				updated: JSON.stringify(new Date()),
+				updated: new Date().toISOString(),
 				source: getSource(this),
 				name: getName(account, project) //	@TODO: ?
 			},
