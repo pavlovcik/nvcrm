@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Simulate</title>
+		<link rel="stylesheet" href="/css/grid-3.css" />
+	</head>
+
+	<body>
+		<ui>
+			<p data-source="account.meta.updated"></p>
+			<p data-source="account.meta.source"></p>
+			<p data-source="account.meta.name"></p>
+
+			<p data-source="account.payload.client.contact.name"></p>
+			<p data-source="account.payload.client.contact.role"></p>
+			<p data-source="account.payload.client.contact.email"></p>
+			<p data-source="account.payload.client.contact.address"></p>
+			<p data-source="account.payload.client.contact.phone"></p>
+			<p data-source="account.payload.client.entity.dba"></p>
+			<p data-source="account.payload.client.entity.name"></p>
+
+			<p data-source="account.payload.agent.name"></p>
+			<p data-source="account.payload.agent.role"></p>
+			<p data-source="account.payload.agent.email"></p>
+
+			<p data-source="project.meta.updated"></p>
+			<p data-source="project.meta.source"></p>
+			<p data-source="project.meta.name"></p>
+			<p data-source="project.payload.start"></p>
+			<p data-source="project.payload.deposit"></p>
+			<p data-source="project.payload.reason"></p>
+
+			<!-- SERVICE RENDERER FUNCTION (HANDLE DYNAMIC SIZED ARRAYS) -->
+
+			<p data-source="project.payload.services[0].title"></p>
+			<p data-source="project.payload.services[0].description"></p>
+			<p data-source="project.payload.services[0].budget"></p>
+			<p data-source="project.payload.services[0].duration.weeks"></p>
+			<p data-source="project.payload.services[0].duration.track"></p>
+			<p data-source="project.payload.services[0].deliverables[0].title"></p>
+		</ui>
+
+		<!-- <script src="./js/simulate.js"></script> -->
+		<script>
+			// (async function(){
+			// 	let proposal = await simulate(`data-source`, `registered`);
+			// 	console.log({proposal});
+			// })();
+		</script>
+
+		<script src="./ts/test-browser.ts"></script>
+		<script>
+
+		</script>
+	</body>
+</html>
