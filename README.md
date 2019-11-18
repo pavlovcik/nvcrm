@@ -6,7 +6,7 @@ This software will be shared as much as possible, ideally in browser (client) on
 
 There are a few benefits to sharing. Currently, the software compiles the `ACCOUNT`, and `PROJECT` .jsons to create `PROPOSAL` and attaches metadata.
 
-Example generated metadata:
+Example generated `PROPOSAL` metadata:
 ```jsonc
 {
 	"type": "proposal", //  object type
@@ -17,3 +17,67 @@ Example generated metadata:
 ```
 
 This is anticipated to be useful for the caching engine within `nvCRM` class to resolve the most updated copy of the data from when syncing between client-server-drive.
+
+## syncEngine
+```typescript
+let latestProposal = nvCRM.syncEngine(
+                        local: Proposal,
+                        remote: Proposal,
+                        storage: any
+                    ) : Proposal
+```
+
+The idea with that pseudo code is to show that the syncEngine should synchronously resolve, cache/save, and return the latest copy of the proposal after considering the following three arguments:
+
+```typescript
+local: Proposal
+```
+
++ The local copy of the proposal (and handle if it does not exist)
+  + If it does not exist, then save the remote copy to local automatically.
+  + If it does exist, return latest proposal based on the `meta.updated` property.
+    + Do not offer revision control because Google Drive models it differently and it will not be worth it.
+
+```typescript
+remote: Proposal
+```
+
++ The remote copy (and handle if it does not exist)
+  + If it is out of date OR it does not exist:
+    + The server should receive the client copy and also use the same resolving engine before committing changes.
+      + Revision control may be handled by Google Drive (for at least 30 days...but maybe do not write custom revision management code)
+    + and update drive to reflect this, which is gonna be quite complicated, but will create the ACCOUNT folder and the PROJECT folders within the ACCOUNT folder, and then save the deconstructed jsons in their appropriate places.
+
+```typescript
+storage: any
+```
+
+## syncEngine.adapter
+This section still needs a lot more thought but I imagine that functions that bridge different storage conditions should be useful, particularly given that the routines required to store data using localStorage and Google Drive are so different.
+
+```typescript
+class adapter {
+    /**
+    * Understands how to work with localStorage
+    */
+    get client() { return latestProposal: Proposal};
+    set client() { };
+
+    /**
+    * JSON storage, server will call this routine when nvCRM.environment === "node"
+    */
+    get server() { return latestProposal: Proposal};
+    set server() { };
+
+    /**
+    * DriveApp.Folder, DriveApp.File
+    */
+    get drive() { return latestProposal: Proposal};
+    set drive() { };
+}
+
+nvCRM.syncEngine.adapter.client
+nvCRM.syncEngine.adapter.server
+nvCRM.syncEngine.adapter.drive
+
+```
