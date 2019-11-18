@@ -18,37 +18,36 @@ Example generated `PROPOSAL` metadata:
 
 This is anticipated to be useful for the caching engine within `nvCRM` class to resolve the most updated copy of the data from when syncing between client-server-drive.
 
-## syncEngine
+## .sync
 ```typescript
-class syncEngine extends nvCRM {    //  not sure if correct syntax
+class sync extends nvCRM {    //  not sure if correct syntax
     resolve(local: Proposal, remote: Proposal) : Proposal
     cache(latest: Proposal) : Proposal
+    async pull(latest: Proposal) : Promise<Proposal> //  @TODO: not sure if necessary
     async push(latest: Proposal) : Promise<xhr.statusCode> //  @TODO: what is the return value? the statuscode?
 }
 
 ```
 How it could be used:
 ```typescript
-
 let latestProposal =
 
-        nvCRM.syncEngine.resolve(
+        nvCRM.sync.resolve(
             local: Proposal,
             remote: Proposal
         ) : Proposal;
 
-nvCRM.syncEngine.cache(latestProposal);
-nvCRM.syncEngine.push(latestProposal);
+nvCRM.sync.cache(latestProposal);
+nvCRM.sync.push(latestProposal);
 
-// Maybe `nvCRM.syncEngine(local, remote)` can abstract all the steps, and run the resolve, store and sync routines in series?
-
+// Maybe `nvCRM.sync(local, remote)` can abstract all the steps, and run the resolve, store and sync routines in series?
 ```
 
-+ `syncEngine.resolve();` should resolve and return the latest copy of the proposal.
-+ `syncEngine.cache();` should be abstracted using the adapters (adapter selected based on the execution environment) and then properly cache/save the proposal.
+### .sync.resolve();
+Should resolve and return the latest copy of the proposal.
 
 ```typescript
-local: Proposal
+// @param local { Proposal }
 ```
 
 + The local copy of the proposal (and handle if it does not exist)
@@ -57,7 +56,7 @@ local: Proposal
     + Do not offer revision control because Google Drive models it differently and it will not be worth it.
 
 ```typescript
-remote: Proposal
+// @param remote { Proposal }
 ```
 
 + The remote copy (and handle if it does not exist)
@@ -66,40 +65,32 @@ remote: Proposal
       + Revision control may be handled by Google Drive (for at least 30 days...but maybe do not write custom revision management code)
     + and update drive to reflect this, which is gonna be quite complicated, but will create the ACCOUNT folder and the PROJECT folders within the ACCOUNT folder, and then save the deconstructed jsons in their appropriate places.
 
-## syncEngine.cache.adapter
+### .sync.cache();
+Should be abstracted using the adapters (adapter selected based on the execution environment) and then properly cache/save the proposal.
+
+#### .sync.cache.adapter[*]
 This section still needs a lot more thought but I imagine that functions that bridge different storage conditions should be useful, particularly given that the routines required to store data using localStorage and Google Drive are so different.
 
 ```typescript
-class adapter {
-    /**
-    * Understands how to work with localStorage
-    */
-    get browser() { return latestProposal: Proposal};
-    set browser() { };
+class sync extends nvCRM {
+    //  not sure if extends is correct syntax but could also nest sync inside of class nvCRM.
+    // pretty sure needs to be nested inside of class nvCRM..
 
-    /**
-    * JSON storage, server will call this routine when nvCRM.environment === "node"
-    */
-    get node() { return latestProposal: Proposal};
-    set node() { };
+    private adapter = { //  is this proper syntax?
+        get browser() { return function browserAdapter() { /*... understands how to work with localStorage */ } };
+        // set browser() { };   @TODO: not sure if necessary
+        get node() { return function nodeAdapter() { /*... understands how to work with JSON file storage and fs.write */ } };
+        // set node() { };  @TODO: not sure if necessary
+        get drive() { return function driveAdapter() { /*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */ } };
+        // set drive() { }; @TODO: not sure if necessary
+    };
 
-    /**
-    * DriveApp.Folder, DriveApp.File
-    * might have to be async which could be interesting.
-    */
-    get drive() { return latestProposal: Proposal};
-    set drive() { };
-}
-
-class syncEngine extends nvCRM {
-    //  not sure if extends is correct syntax but could also nest syncEngine inside of class nvCRM.
-    // pretty sure needs to be nested inside of class nvCRM...
-
-	resolve: () => {};
-	cache: (proposal: Proposal) => {
+	public resolve = () => {};
+	public cache = (proposal: Proposal) => {
         // ... should be replaced with adapters upon construction
     };
-    push () => {};
+    public pull = async function pull () {}; //  @TODO: needs to be async
+    public push = async function push () {}; //  @TODO: needs to be async
 
     constructor() {  //  adapter selection upon construction
         let selectedAdapter = null;
