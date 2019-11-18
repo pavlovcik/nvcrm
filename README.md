@@ -19,22 +19,33 @@ Example generated `PROPOSAL` metadata:
 This is anticipated to be useful for the caching engine within `nvCRM` class to resolve the most updated copy of the data from when syncing between client-server-drive.
 
 ## syncEngine
-
 ```typescript
-    syncEngine();   //  to be continued...
+class syncEngine extends nvCRM {    //  not sure if correct syntax
+    resolve(local: Proposal, remote: Proposal) : Proposal
+    cache(latest: Proposal) : Proposal
+    async push(latest: Proposal) : Promise<xhr.statusCode> //  @TODO: what is the return value? the statuscode?
+}
+
+```
+How it could be used:
+```typescript
+
+let latestProposal =
+
+        nvCRM.syncEngine.resolve(
+            local: Proposal,
+            remote: Proposal
+        ) : Proposal;
+
+nvCRM.syncEngine.cache(latestProposal);
+nvCRM.syncEngine.push(latestProposal);
+
+// Maybe `nvCRM.syncEngine(local, remote)` can abstract all the steps, and run the resolve, store and sync routines in series?
+
 ```
 
-
-Maybe should change to "`syncEngine.resolve(local, remote)`" if storage argument is made obsolete.
-```typescript
-let latestProposal = nvCRM.syncEngine(
-                        local: Proposal,
-                        remote: Proposal
-                        // , storage: any    //  with adapters this seems to be optional
-                    ) : Proposal
-```
-
-The idea with that pseudo code is to show that the syncEngine should synchronously resolve, cache/save, and return the latest copy of the proposal after considering the following three arguments:
++ `syncEngine.resolve();` should resolve and return the latest copy of the proposal.
++ `syncEngine.cache();` should be abstracted using the adapters (adapter selected based on the execution environment) and then properly cache/save the proposal.
 
 ```typescript
 local: Proposal
@@ -55,11 +66,7 @@ remote: Proposal
       + Revision control may be handled by Google Drive (for at least 30 days...but maybe do not write custom revision management code)
     + and update drive to reflect this, which is gonna be quite complicated, but will create the ACCOUNT folder and the PROJECT folders within the ACCOUNT folder, and then save the deconstructed jsons in their appropriate places.
 
-```typescript
-storage: any
-```
-
-## syncEngine.adapter
+## syncEngine.cache.adapter
 This section still needs a lot more thought but I imagine that functions that bridge different storage conditions should be useful, particularly given that the routines required to store data using localStorage and Google Drive are so different.
 
 ```typescript
@@ -78,26 +85,26 @@ class adapter {
 
     /**
     * DriveApp.Folder, DriveApp.File
+    * might have to be async which could be interesting.
     */
     get drive() { return latestProposal: Proposal};
     set drive() { };
 }
 
-class syncEngine extends nvCRM {    //  not sure if extends is correct syntax but could also nest syncEngine inside of class nvCRM.
+class syncEngine extends nvCRM {
+    //  not sure if extends is correct syntax but could also nest syncEngine inside of class nvCRM.
+    // pretty sure needs to be nested inside of class nvCRM...
+
 	resolve: () => {};
-	store: (proposal: Proposal) => {
+	cache: (proposal: Proposal) => {
         // ... should be replaced with adapters upon construction
     };
-    constructor(){
-        //  adapter selection
+    push () => {};
+
+    constructor() {  //  adapter selection upon construction
         let selectedAdapter = null;
         selectedAdapter = adapter[super().environment]  // nvCRM.environment
         this.store = selectedAdapter;
-
     }
 }
-
-let latest = syncEngine.resolve(a, b);
-syncEngine.store(latest);
-
 ```
