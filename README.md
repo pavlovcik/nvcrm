@@ -19,11 +19,18 @@ Example generated `PROPOSAL` metadata:
 This is anticipated to be useful for the caching engine within `nvCRM` class to resolve the most updated copy of the data from when syncing between client-server-drive.
 
 ## syncEngine
+
+```typescript
+    syncEngine();   //  to be continued...
+```
+
+
+Maybe should change to "`syncEngine.resolve(local, remote)`" if storage argument is made obsolete.
 ```typescript
 let latestProposal = nvCRM.syncEngine(
                         local: Proposal,
-                        remote: Proposal,
-                        storage: any
+                        remote: Proposal
+                        // , storage: any    //  with adapters this seems to be optional
                     ) : Proposal
 ```
 
@@ -60,14 +67,14 @@ class adapter {
     /**
     * Understands how to work with localStorage
     */
-    get client() { return latestProposal: Proposal};
-    set client() { };
+    get browser() { return latestProposal: Proposal};
+    set browser() { };
 
     /**
     * JSON storage, server will call this routine when nvCRM.environment === "node"
     */
-    get server() { return latestProposal: Proposal};
-    set server() { };
+    get node() { return latestProposal: Proposal};
+    set node() { };
 
     /**
     * DriveApp.Folder, DriveApp.File
@@ -76,8 +83,21 @@ class adapter {
     set drive() { };
 }
 
-nvCRM.syncEngine.adapter.client
-nvCRM.syncEngine.adapter.server
-nvCRM.syncEngine.adapter.drive
+class syncEngine extends nvCRM {    //  not sure if extends is correct syntax but could also nest syncEngine inside of class nvCRM.
+	resolve: () => {};
+	store: (proposal: Proposal) => {
+        // ... should be replaced with adapters upon construction
+    };
+    constructor(){
+        //  adapter selection
+        let selectedAdapter = null;
+        selectedAdapter = adapter[super().environment]  // nvCRM.environment
+        this.store = selectedAdapter;
+
+    }
+}
+
+let latest = syncEngine.resolve(a, b);
+syncEngine.store(latest);
 
 ```
