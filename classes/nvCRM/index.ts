@@ -1,6 +1,6 @@
 // nvCRM.syncEngine();
 
-// import Proposal from "../../types/Proposal"
+// import Proposal from '../../types/Proposal';
 
 // class nvCRM {
 // 	public syncEngine(a: Proposal, b: Proposal, db: Storage, handler: Function) {
@@ -15,7 +15,7 @@
 // }
 
 let VERSION = require("../../package.json");
-VERSION = VERSION.version ? VERSION.version : false;
+VERSION = VERSION.version ? VERSION.version : null;
 
 import get from "./get";
 
@@ -24,45 +24,47 @@ import Project from "../../types/Project";
 import Proposal from "../../types/Proposal";
 
 export default class nvCRM {
-
-	public Ready: Promise<void>;	//	@FIXME:
+	public initialized: Promise<Proposal>; //	@FIXME: this is a really crappy workaround where it leaves a promise here in order to use await nvCRM to async get the account/project jsons upon construction.
 
 	public proposal: Proposal;
-	private environment: "browser" | "node" = window ? "browser" : "node"; //	test
-	private version: string | boolean = VERSION;
+	private environment: "browser" | "node" = window ? "browser" : "node"; //	execution context, @TODO: not sure if "drive" is a required environment?
+	private version: string | null = VERSION;
 
 	constructor(accountId: string, projectId: string) {
-		this.Ready = this.initialize(accountId, projectId); //	async
+		this.initialized = this.initialize(accountId, projectId); //	async
 	}
 
 	private async initialize(accountURL: string, scopeURL: string) {
 		let account = await get(accountURL);
-		// console.log({ account: account });
 		let project = await get(scopeURL);
-		// console.log({ scope: project });
-		this.proposal = await this.generateProposal(account, project);
+
+		this.proposal = this.generateProposal(account, project);
+
+		return this.proposal;
 	}
 
-	private async generateProposal(account: Account, project: Project): Promise<Proposal> {
+	private generateProposal(account: Account, project: Project): Proposal {
+
 		return {
 			meta: {
 				type: "proposal",
 				updated: new Date().toISOString(),
-				source: getSource(this),
-				name: getName(account, project) //	@TODO: ?
+				source: generateSource(this),
+				name: generateName(account, project) //	@TODO: ?
 			},
 			account,
 			project
 		};
 
-		function getSource(app: nvCRM): string {
+		function generateSource(app: nvCRM): string {
 			if (app.version) {
 				return `${app.environment}-${app.version}`;
 			} else {
 				`${app.environment}`;
 			}
 		}
-		function getName(account: Account, project: Project): string {
+
+		function generateName(account: Account, project: Project): string {
 			let buffer = null;
 
 			if (account.meta.name) {

@@ -17,7 +17,8 @@ const query = `[${attribute}]`;
 	classname = [` `, classname, ` `].join("");
 
 	let client = new nvCRM(accountId, projectId);
-	await client.Ready;
+	// debugger;
+	await client.initialized;
 
 	// client.Ready.then(() => {
 	// 	debugger;

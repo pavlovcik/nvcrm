@@ -23,7 +23,7 @@ This is anticipated to be useful for the caching engine within `nvCRM` class to 
 class sync extends nvCRM {    //  not sure if correct syntax
     resolve(local: Proposal, remote: Proposal) : Proposal
     cache(latest: Proposal) : Proposal
-    async pull(latest: Proposal) : Promise<Proposal> //  @TODO: not sure if necessary
+    // @FIXME: obsolete because pulls on nvCRM construction! // async pull(latest: Proposal) : Promise<Proposal> //  @TODO: not sure if necessary
     async push(latest: Proposal) : Promise<xhr.statusCode> //  @TODO: what is the return value? the statuscode?
 }
 
@@ -89,7 +89,7 @@ class sync extends nvCRM {
 	public cache = (proposal: Proposal) => {
         // ... should be replaced with adapters upon construction
     };
-    public pull = async function pull () {}; //  @TODO: needs to be async
+    // @FIXME: obsolete because pulls on nvCRM construction! // public pull = async function pull () {}; //  @TODO: needs to be async
     public push = async function push () {}; //  @TODO: needs to be async
 
     constructor() {  //  adapter selection upon construction
