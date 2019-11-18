@@ -17,15 +17,7 @@ const query = `[${attribute}]`;
 	classname = [` `, classname, ` `].join("");
 
 	let client = new nvCRM(accountId, projectId);
-	// debugger;
-	await client.initialized;
-
-	// client.Ready.then(() => {
-	// 	debugger;
-	// 	//do stuff that needs foo to be ready, eg apply bindings
-	// });
-
-	// debugger;
+	await client.proposal;
 
 	window[ATTACH_POINT] = client;
 
@@ -58,13 +50,9 @@ const query = `[${attribute}]`;
 
 			let exploded = propertyName.split(`.`);
 			let result = get(exploded, client.proposal);
-			// if (result == null) {
-			// debugger;
-			// get(exploded, client.proposal);
-			// }
 			console.log({ exploded, result });
 
-			pendingTags[x].textContent = result; // }.${}`);
+			pendingTags[x].textContent = result;
 		}
 	}
 })();

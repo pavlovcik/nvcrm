@@ -58,3 +58,15 @@ p {
 	margin-block-start: 0;
 	margin-block-end: 0;
 }
+
+p {
+	/* min-height: 12px; */
+	opacity: 0;
+	/* position: absolute; */
+	/* margin-left: 0; */
+	transition: 1s all ease-in-out;
+}
+p.ready {
+	/* margin-left: inherit; */
+	opacity: 1;
+}

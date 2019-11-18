@@ -7,10 +7,13 @@
 
 	<body>
 		<ui>
+			<h1>Account</h1>
+			<h2>Overview</h2>
 			<p data-source="account.meta.updated"></p>
 			<p data-source="account.meta.source"></p>
 			<p data-source="account.meta.name"></p>
 
+			<h2>Client</h2>
 			<p data-source="account.payload.client.contact.name"></p>
 			<p data-source="account.payload.client.contact.role"></p>
 			<p data-source="account.payload.client.contact.email"></p>
@@ -19,10 +22,13 @@
 			<p data-source="account.payload.client.entity.dba"></p>
 			<p data-source="account.payload.client.entity.name"></p>
 
+			<h2>Agent</h2>
 			<p data-source="account.payload.agent.name"></p>
 			<p data-source="account.payload.agent.role"></p>
 			<p data-source="account.payload.agent.email"></p>
 
+			<h1>Project</h1>
+			<h2>Overview</h2>
 			<p data-source="project.meta.updated"></p>
 			<p data-source="project.meta.source"></p>
 			<p data-source="project.meta.name"></p>
@@ -32,6 +38,7 @@
 
 			<!-- SERVICE RENDERER FUNCTION (HANDLE DYNAMIC SIZED ARRAYS) -->
 
+			<h2>Services</h2>
 			<p data-source="project.payload.services[0].title"></p>
 			<p data-source="project.payload.services[0].description"></p>
 			<p data-source="project.payload.services[0].budget"></p>
@@ -49,8 +56,6 @@
 		</script>
 
 		<script src="./ts/test-browser.ts"></script>
-		<script>
-
-		</script>
+		<script></script>
 	</body>
 </html>
