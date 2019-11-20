@@ -1,29 +1,24 @@
 import nvCRM from "../../classes/nvCRM";
+import Proposal from '../../types/Proposal';
 
 let ATTACH_POINT = `client`; //	mounts to window object.
 const accountId = `./json/account/index.json`;
 const projectId = `./json/account/project/index.json`;
+
 const attribute = `data-source`;
 let classname = `ready`;
 const query = `[${attribute}]`;
 
-(async function() {
-	// let accountId = `wami`;
-	// let projectId = `q4-2019`;
-
-	// accountId = `//api.inventum.digital/clients/${accountId}`;
-	// projectId = `//api.inventum.digital/clients/${accountId}/${projectId}`;
-
+(async function () {
 	classname = [` `, classname, ` `].join("");
-
 	let client = new nvCRM(accountId, projectId);
 	await client.proposal;
+	console.log(client);
 
 	window[ATTACH_POINT] = client;
+	return render(<Proposal>client.proposal);	//	coerced into Proposal from Promise<Proposal>
 
-	return render(client);
-
-	function render(client) {
+	function render(proposal: Proposal) {
 		/**
 		 * This renders everything except for dynamic array lengths and their children,
 		 * which is a problem for SERVICES and DELIVERABLES:
@@ -49,8 +44,8 @@ const query = `[${attribute}]`;
 			pendingTags[x].className = pendingTags[x].className.trim();
 
 			let exploded = propertyName.split(`.`);
-			let result = get(exploded, client.proposal);
-			console.log({ exploded, result });
+			let result = get(exploded, proposal);
+			// console.log({ exploded, result, proposal });
 
 			pendingTags[x].textContent = result;
 		}

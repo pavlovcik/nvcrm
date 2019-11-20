@@ -8,7 +8,7 @@
   "author": "Alexander V. Pavlovcik <nvcrm@pavlovcik.com>",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^12.12.8",
+    "@types/node": "^12.12.11",
     "cssnano": "^4.1.10",
     "typescript": "^3.7.2"
   }
