@@ -1,4 +1,5 @@
 import nvCRM from ".";
+import Proposal from '../../types/Proposal';
 
 /**
  *
@@ -11,38 +12,62 @@ import nvCRM from ".";
 
 export default class SyncEngine {
 
-    public store = function storage() { }
-    public resolve = function resolver() { };
+    public store: Function;
+    public resolve = function resolver(local: Proposal, remote: Proposal) {
+
+        /**
+         * This simply needs to compare timestamps between the local and remote copies of the data.
+
+         * It should ideally check three properties in each argument:
+         *  1. proposal.meta.updated    //  maybe?
+         *  2. proposal.account.meta.updated
+         *  3. proposal.project.meta.updated
+         *
+         * Then it should recompile the latest information and sync to the server/Drive.
+         * This same function should be used by server/Drive to reconcile the latest data.
+         */
+
+    };
     // public push: Promise<void> = async function pusher(): Promise<void> { };
-    public push = function pusher() { }
 
+    public push = async function pusher(): Promise<any> {   //  @TODO: design API response.
 
-    constructor(nvcrm: nvCRM) {  //  adapter selection upon construction
+        /**
+         * If this is browser, push to node.
+         * If this is node, push to drive.
+         * If this is drive, push to node. @TODO: ?
+         *
+         */
 
-        let adapter = {
-            browser() {
-                console.log(this);
-                return function browserAdapter() {
-                    /*... understands how to work with localStorage */
-                }
-            },
-            node() {
-                console.log(this);
-                return function nodeAdapter() {
-                    /*... understands how to work with JSON file storage and fs.write */
-                }
-            },
-            drive() {
-                console.log(this);
-                return function driveAdapter() {
-                    /*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */
-                }
-            },
-        };
+    }
 
-        this.store = adapter[nvcrm.environment]  // selected adapter
+    constructor(nvCRM: nvCRM) {  //  adapter selection upon construction
+        this.store = this.adapter[nvCRM.environment](nvCRM)  // selected adapter
     }
 
 
+    private adapter = {
+
+        browser(nvCRM: nvCRM) {
+            /*... understands how to work with localStorage */
+            // I question the design of this setter...prompts user to set WHERE in localStorage they want to save... @FIXME:
+            return function storage(location: string) {
+                return localStorage[location] = JSON.stringify(nvCRM.proposal)
+            }
+        },
+        node(nvCRM: nvCRM) {
+            /*... understands how to work with JSON file storage and fs.write */
+            return function storage(location: string) {
+                return null
+            }
+        },
+        drive(nvCRM: nvCRM) {
+            /*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */
+            return function storage(location: string) {
+                return null
+            }
+        }
+
+    }
 
 }

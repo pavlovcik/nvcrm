@@ -1,10 +1,11 @@
-import get from "./get";
 
 import Account from "../../types/Account";
 import Project from "../../types/Project";
 import Proposal from "../../types/Proposal";
 
 import SyncEngine from "./sync";
+
+import get from "./get";
 import compileProposal from "./compileProposal"
 import validateDatatype from "./validateDatatype"
 
