@@ -6,6 +6,7 @@ import Proposal from "../../types/Proposal";
 
 import SyncEngine from "./sync";
 import compileProposal from "./compileProposal"
+import validateDatatype from "./validateDatatype"
 
 let VERSION = require("../../package.json");
 VERSION = VERSION.version ? VERSION.version : null;
@@ -21,8 +22,12 @@ export default class nvCRM {
 	}
 
 	private async  initialize(app: nvCRM, accountURL: string, scopeURL: string) {
-		let account: Account = await get(accountURL);
-		let project: Project = await get(scopeURL);
+		let account: Account = await get(accountURL)
+			.then((response: Account) => validateDatatype("account", response));
+
+		let project: Project = await get(scopeURL)
+			.then((response: Project) => validateDatatype("project", response));
+
 		return app.proposal = compileProposal(app, account, project);
 	}
 }

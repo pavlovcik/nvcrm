@@ -45,6 +45,7 @@ const query = `[${attribute}]`;
 
 			let exploded = propertyName.split(`.`);
 			let result = get(exploded, proposal);
+
 			// console.log({ exploded, result, proposal });
 
 			pendingTags[x].textContent = result;
