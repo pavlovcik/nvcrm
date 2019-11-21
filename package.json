@@ -3,13 +3,20 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "cd ./testing/ && parcel ./index.html"
+  },
   "keywords": [],
   "author": "Alexander V. Pavlovcik <nvcrm@pavlovcik.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^12.12.11",
+    "@types/request": "^2.48.3",
     "cssnano": "^4.1.10",
     "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "request": "^2.88.0",
+    "url": "^0.11.0"
   }
 }

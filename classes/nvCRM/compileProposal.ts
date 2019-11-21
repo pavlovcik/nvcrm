@@ -5,23 +5,31 @@ import Project from "../../types/Project";
 import Account from "../../types/Account";
 import Proposal from "../../types/Proposal";
 
-export default function compileProposal(nvcrm: nvCRM, account: Account, project: Project): Proposal {
+export default function compileProposal(account: Account, project: Project): Proposal {
+
+    /**
+     * 😭😭😭 redundant!!!!
+     */
+    let ENVIRONMENT: "browser" | "node" = window ? "browser" : "node"; //	execution context, @TODO: not sure if "drive" is a required environment?
+    let VERSION = require("../../package.json");
+    VERSION = VERSION.version ? VERSION.version : null;
+
     return {
         meta: {
             type: "proposal",
             updated: new Date().toISOString(),
-            source: generateSource(nvcrm),
+            source: generateSource(VERSION, ENVIRONMENT),
             name: generateName(account, project) //	@TODO: ?
         },
         account,
         project
     };
 
-    function generateSource(app: nvCRM): string {
-        if (app.version) {
-            return `${app.environment}-${app.version}`;
+    function generateSource(v: string, e: string): string {
+        if (v) {
+            return `${e}-${v}`;
         } else {
-            `${app.environment}`;
+            `${e}`;
         }
     }
 

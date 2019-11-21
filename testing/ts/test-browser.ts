@@ -10,13 +10,15 @@ let classname = `ready`;
 const query = `[${attribute}]`;
 
 (async function () {
-	classname = [` `, classname, ` `].join("");
-	let client = new nvCRM(accountId, projectId);
-	await client.proposal;
-	console.log(client);
 
+	classname = [` `, classname, ` `].join("");
+	let client = new nvCRM();
+	client.sync.pull(accountId, projectId).then(render);	//	@FIXME: lol currently doesn't save it automatically.
+	// debugger;
+	// await client.proposal;
+	console.log({ client });
 	window[ATTACH_POINT] = client;
-	return render(<Proposal>client.proposal);	//	coerced into Proposal from Promise<Proposal>
+	// return render(<Proposal>client.proposal);	//	coerced into Proposal from Promise<Proposal>
 
 	function render(proposal: Proposal) {
 		/**

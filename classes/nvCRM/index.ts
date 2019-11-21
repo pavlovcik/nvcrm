@@ -1,13 +1,16 @@
 
-import Account from "../../types/Account";
+import Account from '../../types/Account';
 import Project from "../../types/Project";
 import Proposal from "../../types/Proposal";
 
 import SyncEngine from "./sync";
 
 import get from "./get";
+import downloadAll from "./getParallel";
+
 import compileProposal from "./compileProposal"
 import validateDatatype from "./validateDatatype"
+import Meta from '../../types/Meta';
 
 let VERSION = require("../../package.json");
 VERSION = VERSION.version ? VERSION.version : null;
@@ -18,17 +21,25 @@ export default class nvCRM {
 	public proposal: Proposal | Promise<Proposal>;
 	public sync: SyncEngine = new SyncEngine(this);
 
-	constructor(accountId: string, projectId: string) {
-		this.proposal = this.initialize(this, accountId, projectId);
+	constructor(...urls: string[]) {
+
+
+
+		// proposalId: string, accountId: string, projectId: string
+
+
+		// debugger;
+
+		// initialize(this);	//	@FIXME: antipattern, but better that it handles pulling data behind the scenes I think.
+
+		// async function initialize(nvCRM: nvCRM) {
+		// 	nvCRM.proposal = await downloadAll(...urls)
+		// 		.then(identify)
+		// 		.then(organize);
+		// }
+
+
+
 	}
 
-	private async  initialize(app: nvCRM, accountURL: string, scopeURL: string) {
-		let account: Account = await get(accountURL)
-			.then((response: Account) => validateDatatype("account", response));
-
-		let project: Project = await get(scopeURL)
-			.then((response: Project) => validateDatatype("project", response));
-
-		return app.proposal = compileProposal(app, account, project);
-	}
 }
