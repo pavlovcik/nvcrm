@@ -1,11 +1,11 @@
 import Meta from "./Meta";
 
-interface Deliverable {
+export interface Deliverable {
 	title: string;
 	description: string;
 }
 
-interface Service {
+export interface Service {
 	title: string;
 	description: string;
 	budget: number;

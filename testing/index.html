@@ -1,53 +1,63 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Simulate</title>
-		<link rel="stylesheet" href="/css/grid-3.css" />
-	</head>
 
-	<body>
-		<ui>
-			<h1>Account</h1>
-			<h2>Overview</h2>
-			<p data-source="account.meta.updated"></p>
-			<p data-source="account.meta.source"></p>
-			<p data-source="account.meta.name"></p>
+<head>
+	<title>Simulate</title>
+	<link rel="stylesheet" href="/css/grid-3.css" />
+</head>
 
-			<h2>Client</h2>
-			<p data-source="account.payload.client.contact.name"></p>
-			<p data-source="account.payload.client.contact.role"></p>
-			<p data-source="account.payload.client.contact.email"></p>
-			<p data-source="account.payload.client.contact.address"></p>
-			<p data-source="account.payload.client.contact.phone"></p>
-			<p data-source="account.payload.client.entity.dba"></p>
-			<p data-source="account.payload.client.entity.name"></p>
+<body>
+	<ui>
+		<h1>Account</h1>
+		<h2>Overview</h2>
+		<p data-source="account.meta.updated"></p>
+		<p data-source="account.meta.source"></p>
+		<p data-source="account.meta.name"></p>
 
-			<h2>Agent</h2>
-			<p data-source="account.payload.agent.name"></p>
-			<p data-source="account.payload.agent.role"></p>
-			<p data-source="account.payload.agent.email"></p>
+		<h2>Client</h2>
+		<p data-source="account.payload.client.contact.name"></p>
+		<p data-source="account.payload.client.contact.role"></p>
+		<p data-source="account.payload.client.contact.email"></p>
+		<p data-source="account.payload.client.contact.address"></p>
+		<p data-source="account.payload.client.contact.phone"></p>
+		<p data-source="account.payload.client.entity.dba"></p>
+		<p data-source="account.payload.client.entity.name"></p>
 
-			<h1>Project</h1>
-			<h2>Overview</h2>
-			<p data-source="project.meta.updated"></p>
-			<p data-source="project.meta.source"></p>
-			<p data-source="project.meta.name"></p>
-			<p data-source="project.payload.start"></p>
-			<p data-source="project.payload.deposit"></p>
-			<p data-source="project.payload.reason"></p>
+		<h2>Agent</h2>
+		<p data-source="account.payload.agent.name"></p>
+		<p data-source="account.payload.agent.role"></p>
+		<p data-source="account.payload.agent.email"></p>
 
-			<!-- SERVICE RENDERER FUNCTION (HANDLE DYNAMIC SIZED ARRAYS) -->
+		<h1>Project</h1>
+		<h2>Overview</h2>
+		<p data-source="project.meta.updated"></p>
+		<p data-source="project.meta.source"></p>
+		<p data-source="project.meta.name"></p>
+		<p data-source="project.payload.start"></p>
+		<p data-source="project.payload.deposit"></p>
+		<p data-source="project.payload.reason"></p>
 
-			<h2>Services</h2>
-			<p data-source="project.payload.services[0].title"></p>
-			<p data-source="project.payload.services[0].description"></p>
-			<p data-source="project.payload.services[0].budget"></p>
-			<p data-source="project.payload.services[0].duration.weeks"></p>
-			<p data-source="project.payload.services[0].duration.track"></p>
-			<p data-source="project.payload.services[0].deliverables[0].title"></p>
-		</ui>
+		<!-- SERVICE RENDERER FUNCTION (HANDLE DYNAMIC SIZED ARRAYS) -->
 
-		<script src="./ts/test-browser.ts"></script>
-		<script></script>
-	</body>
+		<h2>Services</h2>
+		<span data-template="services">
+			<p data-source="project.payload.services[].title"></p>
+			<p data-source="project.payload.services[].description"></p>
+			<p data-source="project.payload.services[].budget"></p>
+			<p data-source="project.payload.services[].duration.weeks"></p>
+			<p data-source="project.payload.services[].duration.track"></p>
+		</span>
+
+		<h2>Deliverables</h2>
+		<span data-template="deliverables">
+			<p data-source="project.payload.services[].deliverables[].title"></p>
+			<p data-source="project.payload.services[].deliverables[].description"></p>
+		</span>
+
+	</ui>
+
+	<script src="./ts/test-browser.ts"></script>
+	<script></script>
+</body>
+
 </html>

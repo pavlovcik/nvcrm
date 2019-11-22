@@ -21,7 +21,7 @@ export default class nvCRM {
 	public proposal: Proposal | Promise<Proposal>;
 	public sync: SyncEngine = new SyncEngine(this);
 
-	constructor(...urls: string[]) {
+	constructor() {
 
 
 

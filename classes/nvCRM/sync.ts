@@ -54,6 +54,7 @@ export default class SyncEngine {   //  @TODO: damn this needs organization!!
             .then(identify)
             .then(organize)
             .then((proposal: Proposal) => compileProposal(proposal.account, proposal.project))  //  @FIXME: awkward
+            // .then( ATTACH LATEST PROPOSAL TO NVCRM OBJECT)
             .then(this.store);
 
         function identify(responses: any[]) {	//	@TODO: should be broken up into its own module under SyncEngine
@@ -137,32 +138,34 @@ export default class SyncEngine {   //  @TODO: damn this needs organization!!
     }
 
     constructor(nvCRM: nvCRM) {  //  adapter selection upon construction
-        this.store = this.adapter[nvCRM.environment](nvCRM)  // selected adapter
+        let adapter = {
+
+            browser(nvCRM: nvCRM) {
+                /*... understands how to work with localStorage */
+                return function storage(proposal: Proposal) {
+                    localStorage[window.location.pathname] = JSON.stringify(proposal);
+                    return JSON.parse(localStorage[window.location.pathname]);
+                }
+            },
+            node(nvCRM: nvCRM) {
+                /*... understands how to work with JSON file storage and fs.write */
+                return function storage(index: string) {
+                    return null
+                }
+            },
+            drive(nvCRM: nvCRM) {
+                /*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */
+                return function storage(index: string) {
+                    return null
+                }
+            }
+
+        };
+
+        this.store = adapter[nvCRM.environment](nvCRM)  // selected adapter
     }
 
 
-    private adapter = {
 
-        browser(nvCRM: nvCRM) {
-            /*... understands how to work with localStorage */
-            return function storage(proposal: Proposal) {
-                localStorage[window.location.pathname] = JSON.stringify(proposal);
-                return JSON.parse(localStorage[window.location.pathname]);
-            }
-        },
-        node(nvCRM: nvCRM) {
-            /*... understands how to work with JSON file storage and fs.write */
-            return function storage(index: string) {
-                return null
-            }
-        },
-        drive(nvCRM: nvCRM) {
-            /*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */
-            return function storage(index: string) {
-                return null
-            }
-        }
-
-    }
 
 }
