@@ -23,7 +23,7 @@ export default function renderTemplates(proposal: Proposal) {
 			if (window.deliverablesRenderBuffer.length) {
 
 				//	now generate the templates...
-				// project.payload.services[x].deliverables[y]
+				// project.services[x].deliverables[y]
 
 				let deliverablesTemplatized = template(window.deliverablesRenderBuffer);
 
@@ -97,7 +97,7 @@ export default function renderTemplates(proposal: Proposal) {
 		let deliverablesInOrderOfService = new Array(x);
 
 		while (x--) {
-			let service: Service = proposal.project.payload.services[x];//.deliverables[]
+			let service: Service = proposal.project.services[x];//.deliverables[]
 			let deliverables: Deliverable[] = service.deliverables;
 			deliverablesInOrderOfService[x] = deliverables
 		}
@@ -107,7 +107,7 @@ export default function renderTemplates(proposal: Proposal) {
 	}
 
 	function servicesHandler(proposal: Proposal, templates: NodeListOf<Element>, index: number) {
-		const TAG = "project.payload.services";
+		const TAG = "project.services";
 		let services: Service[] = getSafe(TAG.split(`.`), proposal);
 
 		let x = services.length;

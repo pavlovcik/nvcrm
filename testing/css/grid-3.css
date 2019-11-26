@@ -1,19 +1,17 @@
 html {
-	/* line-height: 0; */
 	color: #fff;
 	font: 400 12px/1 system-ui;
 	text-rendering: geometricPrecision;
 }
+
 body {
 	background-color: #000;
 	background-image: url(/png/grid-1.png);
-	/* background-position: -1px; */
 	margin: 0;
 }
 
 ui {
 	position: absolute;
-	/* background-color: #ff000020; */
 	margin: 24px;
 	height: calc(100vh - 24px);
 	width: calc(100vw - 24px);
@@ -44,29 +42,54 @@ button {
 	font: 400 12px/1 system-ui;
 	padding: 6px;
 	color: #fff;
-	/* border: 1px solid #ffffff20; */
 	margin: 24px;
 }
 
 p {
-	/* margin-left: 6px; */
-	/* margin-right: 6px; */
 	padding: 12px;
-	/* margin: 6px; */
-	/* margin-block-start: 6px; */
-	/* margin-block-end: 6px; */
 	margin-block-start: 0;
 	margin-block-end: 0;
 }
 
 p {
-	/* min-height: 12px; */
 	opacity: 0;
-	/* position: absolute; */
-	/* margin-left: 0; */
 	transition: 1s all ease-in-out;
 }
+
 p.ready {
-	/* margin-left: inherit; */
 	opacity: 1;
+}
+
+[data-template] {
+	display: block;
+}
+
+[data-source] {
+	display: inline-block;
+}
+
+[data-source*="title"] {
+	text-transform: uppercase;
+	display: block;
+	-webkit-appearance: blur(6px);
+	font-weight: 100;
+}
+
+[data-source*="budget"]::before {
+	content: "$";
+	display: inline;
+}
+
+[data-source*="duration.weeks"]::after {
+	content: " weeks.";
+	display: inline;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 100;
 }

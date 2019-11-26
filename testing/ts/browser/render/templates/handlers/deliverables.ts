@@ -2,11 +2,11 @@ import Proposal from "../../../../../../types/Proposal";
 import { Deliverable } from '../../../../../../types/Project';
 
 export default function deliverables(el: Element, proposal: Proposal): DocumentFragment {
-    let serviceCount = proposal.project.payload.services.length;
+    let serviceCount = proposal.project.services.length;
     let dfgs = document.createDocumentFragment();
     let serviceIndex = -1;
     while (++serviceIndex < serviceCount) {
-        let deliverables = proposal.project.payload.services[serviceIndex].deliverables;
+        let deliverables = proposal.project.services[serviceIndex].deliverables;
         let dfg = generateNodes(deliverables, serviceIndex++, el);
         dfgs.appendChild(dfg);
     }

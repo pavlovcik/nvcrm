@@ -3,6 +3,7 @@ import Proposal from '../../types/Proposal';
 import downloadAll from "./getParallel";
 import Project from "../../types/Project";
 import compileProposal from './compileProposal';
+interface nvCRMi { environment: string; version?: string; proposal?: Proposal; sync?: SyncEngine; }
 
 /**
  *
@@ -14,6 +15,7 @@ import compileProposal from './compileProposal';
  */
 
 export default class SyncEngine {   //  @TODO: damn this needs organization!!
+    private nvCRM: nvCRMi;
 
     public store: Function;
     // public proposal: Proposal;
@@ -117,6 +119,9 @@ export default class SyncEngine {   //  @TODO: damn this needs organization!!
                 output.project = input.identified.project.shift()	//	@TODO: lazy right now so picking first one, but should loop through and consider timestamps.
             }
 
+            // console.log({output});
+            // debugger;
+
             if (!output.project) throw new Error(`Project information missing.`);
             if (!output.account) throw new Error(`Account information missing.`);
 
@@ -126,7 +131,7 @@ export default class SyncEngine {   //  @TODO: damn this needs organization!!
 
     }
 
-    public push = async function pusher(): Promise<any> {   //  @TODO: design API response.
+    public push = async function pusher(url: string): Promise<any> {   //  @TODO: design API response.
 
         /**
          * If this is browser, push to node.
@@ -135,31 +140,44 @@ export default class SyncEngine {   //  @TODO: damn this needs organization!!
          *
          */
 
+        let account: Account = this.nvCRM.proposal.account;
+        let project: Project = this.nvCRM.proposal.project;
+        let proposal: Proposal = this.nvCRM.proposal;
+
+
+
+        console.log({
+            account,
+            project,
+            proposal
+        });
+        // debugger;
+        return url
+
     }
 
-    constructor(nvCRM: nvCRM) {  //  adapter selection upon construction
+    constructor(nvCRM: nvCRMi) {  //  adapter selection upon construction
+        this.nvCRM = nvCRM;
         let adapter = {
-
-            browser(nvCRM: nvCRM) {
+            browser(nvCRM: nvCRMi) {
                 /*... understands how to work with localStorage */
                 return function storage(proposal: Proposal) {
                     localStorage[window.location.pathname] = JSON.stringify(proposal);
                     return JSON.parse(localStorage[window.location.pathname]);
                 }
             },
-            node(nvCRM: nvCRM) {
+            node(nvCRM: nvCRMi) {
                 /*... understands how to work with JSON file storage and fs.write */
                 return function storage(index: string) {
                     return null
                 }
             },
-            drive(nvCRM: nvCRM) {
+            drive(nvCRM: nvCRMi) {
                 /*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */
                 return function storage(index: string) {
                     return null
                 }
             }
-
         };
 
         this.store = adapter[nvCRM.environment](nvCRM)  // selected adapter

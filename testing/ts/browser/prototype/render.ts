@@ -44,12 +44,12 @@ export default function render(proposal: Proposal) {
 	 * This renders everything except for dynamic array lengths and their children,
 	 * which is a problem for SERVICES and DELIVERABLES:
 	 *
-	 * *	project.payload.services[0].title
-	 * *	project.payload.services[0].description
-	 * *	project.payload.services[0].budget
-	 * *	project.payload.services[0].duration.weeks
-	 * *	project.payload.services[0].duration.track
-	 * *	project.payload.services[0].deliverables[0].title
+	 * *	project.services[0].title
+	 * *	project.services[0].description
+	 * *	project.services[0].budget
+	 * *	project.services[0].duration.weeks
+	 * *	project.services[0].duration.track
+	 * *	project.services[0].deliverables[0].title
 	 *
 	 * @TODO: special dynamic length handler
 	 *

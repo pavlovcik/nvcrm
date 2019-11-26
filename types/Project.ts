@@ -16,16 +16,21 @@ export interface Service {
 	deliverables: Deliverable[];
 }
 
-interface Payload {
-	type: string;
+// interface Payload {
+	// type: string;
+	// title: string;
+	// start: Date;
+	// deposit: number;
+	// reason: string;
+	// services: Service[];
+// }
+
+export default interface Project {
+	meta: Meta;
 	title: string;
 	start: Date;
 	deposit: number;
 	reason: string;
 	services: Service[];
-}
-
-export default interface Project {
-	meta: Meta;
-	payload: Payload;
+	// payload: Payload;
 }

@@ -1,6 +1,29 @@
 import Meta from "./Meta";
 
-interface Payload {
+// interface Payload {
+	// type: string;
+	// client: {
+	// 	contact: {
+	// 		name: string;
+	// 		role: string;
+	// 		email: string;
+	// 		address: string;
+	// 		phone: string;
+	// 	};
+	// 	entity: {
+	// 		dba: string;
+	// 		name: string;
+	// 	};
+	// };
+	// agent: {
+	// 	name: string;
+	// 	role: string;
+	// 	email: string;
+	// };
+// }
+
+export default interface Account {
+	meta: Meta;
 	type: string;
 	client: {
 		contact: {
@@ -20,9 +43,5 @@ interface Payload {
 		role: string;
 		email: string;
 	};
-}
-
-export default interface Account {
-	meta: Meta;
-	payload: Payload;
+	// payload: Payload;
 }

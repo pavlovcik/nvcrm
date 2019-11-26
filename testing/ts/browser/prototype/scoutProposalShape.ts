@@ -28,7 +28,7 @@ export default function scoutProposalShape(proposal: Proposal) {
 
         if (!tagged) {
             tagged = true;	//	only tag once.
-            const TAG = "project.payload.services";
+            const TAG = "project.services";
 
             let services = getSafe(TAG.split(`.`), proposal);
             taggedServices = tagServices(services, TAG);
@@ -39,7 +39,7 @@ export default function scoutProposalShape(proposal: Proposal) {
         function tagServices(services: Service[], tagName: string): any[] {
             /**
              * This will open up the services object
-             * project.payload.services[x]
+             * project.services[x]
              */
 
 
@@ -64,7 +64,7 @@ export default function scoutProposalShape(proposal: Proposal) {
         function tagDeliverables(deliverables: Deliverable[], masterIndex: number, servicesIndex: number) {
             /**
              * This will open up the deliverables object
-             * project.payload.services[x].deliverables[y]
+             * project.services[x].deliverables[y]
              */
             let x = deliverables.length;
             while (x--) {
