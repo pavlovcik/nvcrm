@@ -1,11 +1,11 @@
-import nvCRM from ".";
-
-import Meta from "../../types/Meta";
 import Project from "../../types/Project";
 import Account from "../../types/Account";
 import Proposal from "../../types/Proposal";
 
-export default function compileProposal(account: Account, project: Project): Proposal {
+export default function compile(contents: { account: Account; project: Project }): Proposal {
+
+    let account: Account = contents.account;
+    let project: Project = contents.project;
 
     /**
      * 😭😭😭 redundant!!!!
@@ -19,18 +19,15 @@ export default function compileProposal(account: Account, project: Project): Pro
             type: "proposal",
             updated: new Date().toISOString(),
             source: generateSource(VERSION, ENVIRONMENT),
-            name: generateName(account, project) //	@TODO: ?
+            name: generateName(account, project) //	@TODO: Not sure if necessary or accurate right now.
         },
         account,
         project
     };
 
-    function generateSource(v: string, e: string): string {
-        if (v) {
-            return `${e}-${v}`;
-        } else {
-            `${e}`;
-        }
+    function generateSource(version: string, environment: string): string {
+        if (version) return `${environment}-${version}`;
+        else return `${environment}`;
     }
 
     function generateName(account: Account, project: Project): string {
@@ -39,6 +36,7 @@ export default function compileProposal(account: Account, project: Project): Pro
         if (account.meta.name) {
             buffer = account.meta.name;
         }
+
         if (project.meta.name) {
             buffer += `/`;
             buffer += project.meta.name;

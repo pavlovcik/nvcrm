@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd ./testing/ && parcel ./index.html"
+    "start": "cd ./testing/ && parcel ./index.html",
+    "patch": "npm version patch",
+    "minor": "npm version minor",
+    "major": "npm version major"
   },
   "keywords": [],
   "author": "Alexander V. Pavlovcik <nvcrm@pavlovcik.com>",
