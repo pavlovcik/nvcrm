@@ -1,16 +1,15 @@
+import Proposal from '../../types/Proposal';
+interface nvCRMi { environment: string; version?: string; proposal?: Proposal; sync?: SyncEngine; }
+
 import resolver from './resolver';
 import puller from './puller';
 import pusher from './pusher';
 
-import Proposal from '../../types/Proposal';
-interface nvCRMi { environment: string; version?: string; proposal?: Proposal; sync?: SyncEngine; }
-
 export default class SyncEngine {
     public pull = puller;
+    public resolve = resolver;
+    public store: Function = undefined;
     public push = pusher;
-
-    private store: Function = undefined;
-    private resolve = resolver;
 
     constructor(nvCRM: nvCRMi) {
 
