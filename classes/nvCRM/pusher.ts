@@ -1,12 +1,14 @@
 import Project from "../../types/Project";
 import Proposal from "../../types/Proposal";
 
-export default async function pusher(url: string): Promise<any> {   //  @TODO: design API response.
+export default async function pusher(url: string): Promise<any> {
+
+    //  @TODO: design API response.
 
     /**
      * If this is browser, push to node.
      * If this is node, push to drive.
-     * If this is drive, push to node. @TODO: ?
+     * If this is drive, push to node. @TODO: figure out if this is necessary
      *
      */
 

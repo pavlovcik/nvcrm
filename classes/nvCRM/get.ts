@@ -1,5 +1,4 @@
 export default async function get(url: string, resolve, reject): Promise<any> {
-
 	return new Promise<string>((res, rej) => {
 		let xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function (event) {

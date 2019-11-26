@@ -3,7 +3,7 @@ import Proposal from '../../types/Proposal';
 import identify from './identify';
 import organize from './organize';
 import compile from './compile';
-import downloadAll from './downloadAll'
+import getParallel from './getParallel'
 
 export default async function puller(...urls: string[]): Promise<Proposal> {
 
@@ -15,7 +15,7 @@ export default async function puller(...urls: string[]): Promise<Proposal> {
      * Account, Project and Proposal
      */
 
-    return await downloadAll(...urls)
+    return await getParallel(...urls)
         .then(identify)
         .then(organize)
         .then(compile)
