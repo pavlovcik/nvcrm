@@ -1,6 +1,6 @@
 {
   "name": "nvcrm",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -11,9 +11,7 @@
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
-
     "build": "tsc -p ./tsconfig.json --watch",
-
     "test-browser": "cd ./dist/src/testing/browser/static/ && npx static .",
     "test-node": "cd ./dist/src/testing/node/ && node ."
   },
