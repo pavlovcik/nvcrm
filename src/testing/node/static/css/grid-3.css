@@ -93,3 +93,15 @@ h5,
 h6 {
 	font-weight: 100;
 }
+
+button {
+	cursor: pointer;
+}
+
+#test_post {
+	border: 1px solid
+}
+
+button:hover {
+	background-color: #ffffff80;
+}

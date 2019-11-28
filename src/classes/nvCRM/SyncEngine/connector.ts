@@ -5,8 +5,8 @@ import organize from './organize';
 import compile from './compile';
 import Project from '../../../types/Project';
 
-export default async function plugin(object: Proposal | Account | Project): Promise<Proposal> {
-    // This is a direct plug in for a <Proposal | Account | Project> designed for express req.body to pass into nvCRM
+export default async function connector(object: Proposal | Account | Project): Promise<Proposal> {
+    // This is a direct bridge/plug/connector for a <Proposal | Account | Project> designed for express req.body to pass into nvCRM
 
     return Promise.resolve([object])
         .then(identify)

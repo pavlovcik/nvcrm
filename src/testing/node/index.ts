@@ -1,18 +1,14 @@
 import path from "path"
 import express from "express"
 import bodyParser from "body-parser";
-import handler from "./post";
+import postHandle from "./post";
 
 const port = 8000;
 const server = express();
+const staticPath = path.join(`dist`, `testing`, `node`, `static`);
 
 server.use(bodyParser.json());
+server.use(express.static(staticPath));
+server.post('/crm/', postHandle);
 
-let pathname = `static`;
-let bridge = path.join(`dist`, `testing`, `node`);
-let final = path.join(bridge, pathname);
-
-server.use(express.static(final));
-server.post('/crm/', handler);
-
-server.listen(port, () => console.log(`\t>\thttp://127.0.0.1:${port}\t>\t>`))
+server.listen(port, () => console.log(`\t>\thttp://127.0.0.1:${port}\t>\t>`));

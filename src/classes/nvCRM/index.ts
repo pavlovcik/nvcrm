@@ -16,7 +16,7 @@ export default async function nvCRM(...urls: any[]): Promise<nvCRMi> {	//	string
 			if (unidentified.length === 1 && typeof unidentified[0] == "object") {
 				// directly passed in ?
 				let prop: Proposal = unidentified.shift();
-				self.proposal = await self.sync.plug(prop);
+				self.proposal = await self.sync.connect(prop);
 			}
 			break;
 		default:

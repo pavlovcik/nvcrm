@@ -3,14 +3,14 @@ import { nvCRMi } from '../setup';
 import resolver from './resolver';
 import puller from './puller';
 import pusher from './pusher';
-import plugin from './plugin';
+import connector from './connector';
 import storeInit from './store';
 
 export default class SyncEngine {
     public pull = puller;
     public resolve = resolver;
     public push = pusher;
-    public plug = plugin;
+    public connect = connector;
     public store: Function;
 
     constructor(nvCRM: nvCRMi) {

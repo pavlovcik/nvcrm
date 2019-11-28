@@ -20,16 +20,16 @@ export default function storeInit(nvCRM: nvCRMi): Function {
         node(): Function {
             /*... understands how to work with JSON file storage and fs.write */
             return function storage(proposal: Proposal): Proposal {
-                // let title = proposal.meta.name;
-                let account: string = proposal.account.meta.name;
-                let project: string = proposal.project.meta.name;
 
-                // fs.opendir(`${process.cwd()}client/`, (err, dir) => {
-                //     if (err) throw err
-                //     console.log({ dir });
-                // });
+                const fs = require("fs-extra");
+                const accountName = proposal.account.meta.name.toLowerCase().replace(/\//igm, `-`);
+                const projectName = proposal.project.meta.name.toLowerCase().replace(/\//igm, `-`);
 
-                // fs.writeFileSync(`${process.cwd()}/${title.toLowerCase().replace(/\//igm, `-`)}.json`, JSON.stringify(proposal));
+                // fs.ensureDirSync(`${__dirname}/client/${accountName}`);
+                fs.ensureDirSync(`${__dirname}/client/${accountName}/${projectName}/`);
+                fs.writeFileSync(`${__dirname}/client/${accountName}/account.json`, JSON.stringify(proposal.account), `UTF-8`);
+                fs.writeFileSync(`${__dirname}/client/${accountName}/${projectName}/project.json`, JSON.stringify(proposal.project), `UTF-8`);
+
                 return nvCRM.proposal = proposal;
             };
         },
