@@ -1,6 +1,6 @@
-import nvCRM from "../../classes/nvCRM";
+import "babel-polyfill";	//	@FIXME:
+import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./render/index";
-import { nvCRMi } from '../../classes/nvCRM/SyncEngine/index';
 
 (function () {
 	let test = {

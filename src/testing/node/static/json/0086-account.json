@@ -1,0 +1,26 @@
+{
+    "meta": {
+        "type": "account",
+        "updated": "2019-11-16T19:44:17.840Z",
+        "source": "1sAHYA3u0ZrbzuQTAfr6FuQPrqnetwsNR",
+        "name": "WAMI"
+    },
+    "client": {
+        "contact": {
+            "name": "Adam Miranda",
+            "role": "Founder",
+            "email": "adam@wamilive.com",
+            "address": "3230 South Western Ave. Chicago, 60608",
+            "phone": "‭+1 (312) 860-9166‬"
+        },
+        "entity": {
+            "dba": "WAMI",
+            "name": "Wami Live Inc."
+        }
+    },
+    "agent": {
+        "name": "Alexander V. Pavlovcik",
+        "role": "Chief Executive Officer",
+        "email": "alexander@inventum.digital"
+    }
+}

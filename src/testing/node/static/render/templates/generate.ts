@@ -1,5 +1,5 @@
 import { default as handlers } from "./handlers";
-import Proposal from '../../../../types/Proposal';
+import Proposal from '../../../../../types/Proposal';
 
 export default function generate(query: string, proposal: Proposal): any {
     let els = document.querySelectorAll(query);

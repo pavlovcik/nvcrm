@@ -11,9 +11,11 @@
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
-    "build": "tsc -p ./tsconfig.json --watch",
-    "test-browser": "cd ./dist/src/testing/browser/static/ && npx static .",
-    "test-node": "cd ./dist/src/testing/node/ && node ."
+    "_build-node": "tsc ./dist/testing/node/ -p ./tsconfig.json --watch",
+    "build-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
+    "build-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
+    "_build-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser --public-url ./static/",
+    "start": "nodemon ./dist/testing/node/"
   },
   "keywords": [],
   "author": "Alexander V. Pavlovcik <nvcrm@pavlovcik.com>",
@@ -27,9 +29,12 @@
     "caniuse-lite": "^1.0.30001012",
     "cssnano": "^4.1.10",
     "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "parcel-bundler": "^1.12.4",
     "typescript": "^3.7.2"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "url": "^0.11.0"
   }
 }

@@ -1,4 +1,4 @@
-import Proposal from '../../../../types/Proposal';
+import Proposal from '../../../../../types/Proposal';
 import generate from './generate';
 
 export default function templates(query: string, proposal: Proposal) {

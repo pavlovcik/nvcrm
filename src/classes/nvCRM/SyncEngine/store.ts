@@ -1,7 +1,5 @@
 import Proposal from "../../../types/Proposal";
-import { nvCRMi } from "../SyncEngine";
-
-import fs from "fs"
+import { nvCRMi } from "../setup";
 
 export default function storeInit(nvCRM: nvCRMi): Function {
     /**

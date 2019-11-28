@@ -6,7 +6,7 @@ let PACKAGE: any;
 let VERSION: string;
 
 try {
-    PACKAGE = require("../../../../package.json");  //  @FIXME: dependent on tsconfig.json output structure.
+    PACKAGE = require("../../../package.json");  //  @FIXME: dependent on tsconfig.json output structure.
     VERSION = PACKAGE.version ? PACKAGE.version : null;
 } catch (e) {
     console.error(e);
@@ -19,7 +19,7 @@ if (globalThis) {
 }
 
 export default {
-    proposal: <unknown>null,	//	will be type <Proposal> eventually
+    proposal: undefined,	//	will be type <Proposal> eventually
     environment: ENVIRONMENT,
     version: VERSION,
     sync: new SyncEngine({
