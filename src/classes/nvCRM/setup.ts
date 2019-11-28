@@ -1,7 +1,7 @@
 import SyncEngine from "./SyncEngine";
 import Proposal from "../../types/Proposal";
 
-let ENVIRONMENT: ("node" | "browser" | "drive" | "unknown") = "unknown";
+let ENVIRONMENT: "node" | "browser" | "drive" | "unknown" = "unknown";
 let PACKAGE: any;
 let VERSION: string;
 
@@ -18,8 +18,8 @@ if (globalThis) {
     else if (globalThis.global) ENVIRONMENT = "node";
 }
 
-export default {
-    proposal: undefined,	//	will be type <Proposal> eventually
+let self: nvCRMi = {
+    proposal: undefined,
     environment: ENVIRONMENT,
     version: VERSION,
     sync: new SyncEngine({
@@ -27,6 +27,8 @@ export default {
         version: VERSION
     })
 };
+
+export default self;
 
 export interface nvCRMi {
     environment: ("browser" | "node" | "drive" | "unknown");
