@@ -1,6 +1,6 @@
 {
   "name": "nvcrm",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "main": "dist/testing/node/index.js",
   "repository": {
@@ -11,13 +11,10 @@
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
-
     "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
     "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
-
     "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
     "build-browser": "parcel build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
-
     "start": "nodemon ./dist/testing/node/"
   },
   "keywords": [],
