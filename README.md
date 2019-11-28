@@ -1,6 +1,16 @@
 # nvCRM
 
+## Build Instructions
+
+```shell
+npm run-script build-node   #   Backend
+npm run-script build-browser    #   Frontend
+npm start   #   Testing
+```
+
 ## Overview
+
+Note: this is terribly outdated and will be updated in time for v1.0.0
 
 This software will be shared as much as possible, ideally in browser (client) on the inventum digital server (server) and google drive (drive)
 
