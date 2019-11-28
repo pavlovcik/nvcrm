@@ -2,7 +2,7 @@
   "name": "nvcrm",
   "version": "0.2.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/testing/node/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/pavlovcik/nvcrm.git"
@@ -11,11 +11,13 @@
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
-    "build": "parcel watch ./src/testing/node/index.ts ./src/testing/node/static/index.html --out-dir ./dist/testing/node/",
+
     "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
     "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
+
     "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
     "build-browser": "parcel build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
+
     "start": "nodemon ./dist/testing/node/"
   },
   "keywords": [],
