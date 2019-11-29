@@ -1,0 +1,11 @@
+
+-       -       -       -       -       -       -       -       -       -       -
+
+        BROWSER                 SERVER                  DRIVE
+        { Proposal } ->         split+write     ->      receive
+
+
+                        +       Accounts/${proposal.account.company.contact.name}/INTERNAL/${project.name}/
+
+                        +       PUBLIC/Inventum Digital/
+                        +       sharing settings = public

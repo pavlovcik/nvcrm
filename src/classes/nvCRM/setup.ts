@@ -1,38 +1,43 @@
-import SyncEngine from "./SyncEngine";
 import Proposal from "../../types/Proposal";
+import SyncEngine from "./SyncEngine";
 
-let ENVIRONMENT: "node" | "browser" | "drive" | "unknown" = "unknown";
-let PACKAGE: any;
-let VERSION: string;
-
-try {
-    PACKAGE = require("../../../package.json");  //  @FIXME: dependent on tsconfig.json output structure.
-    VERSION = PACKAGE.version ? PACKAGE.version : null;
-} catch (e) {
-    console.error(e);
-    VERSION = null;
+export type Environment = "node" | "browser" | "drive" | "unknown";
+export interface nvCRMi {
+    environment: Environment;
+    version: string;
+    proposal: Proposal;
+    sync: SyncEngine;
 }
 
-if (globalThis) {
-    if (globalThis.window) ENVIRONMENT = "browser";
-    else if (globalThis.global) ENVIRONMENT = "node";
-}
+const ENVIRONMENT = determineEnvironment();
+const VERSION = determineVersion();
 
-let self: nvCRMi = {
+export default {
     proposal: undefined,
     environment: ENVIRONMENT,
     version: VERSION,
-    sync: new SyncEngine({
-        environment: ENVIRONMENT,
-        version: VERSION
-    })
-};
+    sync: new SyncEngine(ENVIRONMENT)
+}
 
-export default self;
+function determineEnvironment(): Environment {
+    let ENVIRONMENT: Environment = "unknown";
 
-export interface nvCRMi {
-    environment: ("browser" | "node" | "drive" | "unknown");
-    version?: string;
-    proposal?: Proposal | Promise<Proposal>;    //  @FIXME: not sure if promise should be here
-    sync?: SyncEngine;
+    if (globalThis) {
+        if (globalThis.window) ENVIRONMENT = "browser";
+        else if (globalThis.global) ENVIRONMENT = "node";
+    }
+    return ENVIRONMENT
+}
+
+function determineVersion(): string {
+    let VERSION: string;
+    try {
+        let PACKAGE: any;
+        PACKAGE = require("../../../package.json");
+        VERSION = PACKAGE.version ? PACKAGE.version : null;
+    } catch (e) {
+        console.error(e);
+        VERSION = null;
+    }
+    return VERSION
 }

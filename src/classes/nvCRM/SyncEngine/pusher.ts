@@ -1,5 +1,7 @@
 import Project from "../../../types/Project";
 import Proposal from "../../../types/Proposal";
+import Account from "../../../types/Account";
+import post from "./xhr/post";
 
 export default async function pusher(url: string): Promise<any> {
 
@@ -12,15 +14,15 @@ export default async function pusher(url: string): Promise<any> {
      *
      */
 
-    let account: Account = this.nvCRM.proposal.account;
-    let project: Project = this.nvCRM.proposal.project;
-    let proposal: Proposal = this.nvCRM.proposal;
+    let proposal: Proposal = this.store;
+    // let account: Account = proposal.account;
+    // let project: Project = proposal.project;
 
-    console.log({
-        account,
-        project,
-        proposal
-    });
+    // console.log({
+    //     account,
+    //     project,
+    //     proposal
+    // });
 
-    return url
+    return await post(url, proposal);
 }

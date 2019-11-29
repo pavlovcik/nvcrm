@@ -1,5 +1,4 @@
 import Project from "../../../types/Project";
-
 import Proposal from "../../../types/Proposal";
 
 export interface Identified {
@@ -8,7 +7,9 @@ export interface Identified {
     proposal?: Proposal[];
 };
 
-export default function identify(responses: any[]) {
+export default function identify(
+    responses: any[]
+): { identified: Identified, unexpected: any } {
 
     /**
      * Check the metadata for its type and understand what was just received.
@@ -17,7 +18,9 @@ export default function identify(responses: any[]) {
 
     let identified: Identified = {};
     let unexpected = {};	//	We were able to read the object.meta.type but it wasn't "account", "project", or "proposal"
+
     responses.forEach(parser);
+
     return { identified, unexpected }
 
     function parser(object: any) {

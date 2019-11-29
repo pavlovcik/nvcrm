@@ -1,19 +1,19 @@
-import { nvCRMi } from '../setup';
+import { nvCRMi, Environment } from '../setup';
 
 import resolver from './resolver';
 import puller from './puller';
 import pusher from './pusher';
 import connector from './connector';
-import storeInit from './store';
+import store from './store';
 
 export default class SyncEngine {
     public pull = puller;
-    public resolve = resolver;
     public push = pusher;
+    static resolve = resolver;
     public connect = connector;
-    public store: Function;
+    protected store: any;
 
-    constructor(nvCRM: nvCRMi) {
-        this.store = storeInit(nvCRM);  // selected adapter
+    constructor(environment: Environment) {
+        this.store = store(environment);  // selected adapter
     }
 }

@@ -1,25 +1,26 @@
 import Proposal from '../../../../../types/Proposal';
-import generate from './generate';
+import generateTemplates from './generate';
 
 export default function templates(query: string, proposal: Proposal) {
-    let self = { templates: generate(query, proposal), proposal: undefined };
-    self.proposal = template(self.templates, query);
-    return self;
+    let generatedTemplates = generateTemplates(query, proposal);
+    processTemplates(generatedTemplates, query);
+    return generatedTemplates;
 }
 
-function template(templates: any, query: string) {
+function processTemplates(templates: any, query: string) {
     let els = document.querySelectorAll(query);
     let x = els.length;
     let output = {};
     const cachedRegex = new RegExp(/[\[|\]]/igm);
     while (x--) {
         let templateId = els[x].getAttribute(query.replace(cachedRegex, ``));
-        output[templateId] = clobber(els[x], templates[templateId]);
+        output[templateId] = writeToDOM(els[x], templates[templateId]);
     }
     return output
 }
 
-function clobber(target: Element, template: DocumentFragment) {
+function writeToDOM(target: Element, template: DocumentFragment) {
     const serializer = new XMLSerializer();
     target.outerHTML = serializer.serializeToString(template);
+    return template
 }

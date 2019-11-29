@@ -1,7 +1,13 @@
-import Proposal from "../../../types/Proposal";
 import { Identified } from "./identify";
 
-export default function organize(input: { identified: Identified, unexpected: any }): Proposal {
+import Project from "../../../types/Project";
+import Account from "../../../types/Account";
+
+export default function organize(
+    input: { identified: Identified, unexpected: any }
+): { account: Account; project: Project } {
+
+    // @FIXME: this function has really weird interfaces.
 
     // Compile the Proposal object based on the inputs.
 
@@ -20,7 +26,8 @@ export default function organize(input: { identified: Identified, unexpected: an
      */
 
     let output = {
-        meta: null, project: null, account: null    //  @TODO: meta needs to be generated lol
+        // meta: null,
+        project: null, account: null    //  @TODO: meta needs to be generated lol
     };
 
     if (input.identified.proposal) {

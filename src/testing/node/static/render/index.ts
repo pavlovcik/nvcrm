@@ -13,9 +13,15 @@ export default class RenderEngine {
     public query: string = null;
 
     constructor(query: string, proposal: Proposal) {
-        templates(query, proposal);
+
+        if (!query) throw new Error(`DOM template target query required.`);
+        if (!proposal) throw new Error(`Proposal required to render DOM templates.`);
+
+        let templatesOutput = templates(query, proposal);
+        console.log({ templatesOutput });
         this.proposal = proposal;
         this.query = query;
+        // console.log(this);
     }
 
 }
@@ -32,7 +38,6 @@ function renderDocument(query: string, classname: string) {
         pendingTags[x].className += classname;
         pendingTags[x].className = pendingTags[x].className.trim();
         pendingTags[x].textContent = eval(`proposal.${propertyName}`);  //  @TODO: Remove eval somehow?
-        // function getSafe(p, o): any { p.reduce((xs, x) => (xs && xs[x] ? xs[x] : null), o) }
     }
 
 }

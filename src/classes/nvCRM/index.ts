@@ -1,5 +1,9 @@
-import Proposal from "../../types/Proposal";
-import self, { nvCRMi } from "./setup"
+import Proposal from "../../types/Proposal"
+import crm, { nvCRMi } from "./setup"
+
+import identify from "./SyncEngine/identify";
+import organize from "./SyncEngine/organize";
+import compile from "./SyncEngine/compile";
 
 const responders = {
 	"drive": (o): never => {
@@ -9,15 +13,17 @@ const responders = {
 		throw new Error(`Unknown execution environment.`)
 	},
 	"browser": async (...urls: string[]): Promise<nvCRMi> => {
-		self.proposal = await self.sync.pull(...urls);
-		return self
+		let proposal = await crm.sync.pull(...urls);
+		crm.sync.store = proposal
+		// console.log(crm.sync.store);
+		return crm
 	},
 	"node": async (o: any): Promise<nvCRMi> => {
 		// directly passed in ?
 		if (o.length === 1 && typeof o[0] == "object") {
 			let prop: Proposal = o.shift();
-			self.proposal = await self.sync.connect(prop);
-			return self
+			crm.proposal = await crm.sync.connect(prop);
+			return crm
 		} else throw new Error(`Unexpected object type passed in.`);
 	}
 };
@@ -25,9 +31,9 @@ const responders = {
 export default async function nvCRM(...mystery: any): Promise<nvCRMi> {
 	let x = mystery.length;
 	if (x === 1) {
-		return responders[self.environment](mystery)
+		return await responders[crm.environment](mystery)
 	} else {
 		let flattened = [...mystery];
-		return responders[self.environment].apply(self, flattened);
+		return await responders[crm.environment].apply(crm, flattened);
 	}
 }

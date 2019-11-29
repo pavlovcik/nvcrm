@@ -1,7 +1,7 @@
 import { default as handlers } from "./handlers";
 import Proposal from '../../../../../types/Proposal';
 
-export default function generate(query: string, proposal: Proposal): any {
+export default function generateTemplates(query: string, proposal: Proposal): any {
     let els = document.querySelectorAll(query);
     let x = els.length;
     const cachedRegex = new RegExp(/[\[|\]]/igm);

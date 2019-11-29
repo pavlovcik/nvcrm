@@ -1,7 +1,7 @@
 import path from "path"
 import express from "express"
 import bodyParser from "body-parser";
-import postHandle from "./post";
+import postHandle from "./postHandle";
 
 const port = 8000;
 const server = express();
