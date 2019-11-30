@@ -1,10 +1,7 @@
 import Proposal from '../../../../types/Proposal';
-
+import compile from './compile';
 import identify from './identify';
 import organize from './organize';
-import compile from './compile';
-import SyncEngine from '../index';
-import store from '../store/index';
 
 /**
  *This safely transforms any object into a proposal in the best way that it can.

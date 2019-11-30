@@ -1,8 +1,6 @@
-import Proposal from "../../types/Proposal"
-import Project from "../../types/Project";
-import Account from "../../types/Account";
+import Proposal from "../../types/Proposal";
+import crm, { nvCRMi } from "./setup";
 
-import crm, { nvCRMi } from "./setup"
 
 const responders = {
 	"browser": async (...urls: string[]): Promise<Proposal> => await crm.sync.pull(...urls),

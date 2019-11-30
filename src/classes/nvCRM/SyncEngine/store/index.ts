@@ -1,5 +1,5 @@
 import { Environment } from "../../setup";
-import * as adapters from "./adapters"
+import * as adapters from "./adapters";
 
 /**
   *

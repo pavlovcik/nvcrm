@@ -1,10 +1,9 @@
 import { Environment } from '../setup';
 import converter from './converter/';
+import resolver from './converter/resolver';
 import puller from './network/puller';
 import pusher from './network/pusher';
-import resolver from './converter/resolver';
 import store from './store/';
-
 
 export default class SyncEngine {
     public pull = puller;

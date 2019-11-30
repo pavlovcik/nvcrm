@@ -10,14 +10,11 @@ export const browser = {
         }
     })(),
     get: function browserStoreGet(): Proposal {
-        // console.log(`*** getting from browser ***, ${this._proposal}`);
         return this._proposal;
     },
     set: function browserStoreSet(proposal: Proposal): void {
-        // console.log(`*** setting to browser ***, ${proposal}`);
         this._proposal = proposal;
         localStorage[window.location.pathname] = JSON.stringify(proposal);
-        // return JSON.parse(localStorage[window.location.pathname]);
     }
 };
 

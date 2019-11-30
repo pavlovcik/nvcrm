@@ -1,11 +1,11 @@
-import { Identified } from "./identify";
-import resolve from "./resolver";
-import Proposal from "../../../../types/Proposal";
 import Account from "../../../../types/Account";
 import Project from "../../../../types/Project";
+import Proposal from "../../../../types/Proposal";
+import { Identified } from "./identify";
+import resolve from "./resolver";
 
 
-let latest = (a: Account, b: Account): number => {
+const latest = (a: Account | Project, b: Account | Project): number => {
     const A = new Date(a.meta.updated);
     const B = new Date(b.meta.updated);
     if (A > B) return -1
@@ -13,7 +13,7 @@ let latest = (a: Account, b: Account): number => {
     else return 0
 };
 
-export default function organize( input: { identified: Identified, unexpected: any } ): Proposal {
+export default function organize(input: { identified: Identified, unexpected: any }): Proposal {
 
     // @FIXME: this function has really weird interfaces.
 
@@ -32,6 +32,8 @@ export default function organize( input: { identified: Identified, unexpected: a
      * This seems too tightly coupled with business logic only using queue.identified and should be further abstracted for reusability @TODO: handle queue.unexpected
      *
      */
+
+    console.log({ input });
 
     let iid = input.identified;
 

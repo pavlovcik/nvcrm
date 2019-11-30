@@ -1,5 +1,5 @@
-import get from './get'
 import Proposal from '../../../../types/Proposal';
+import get from './get';
 
 export default async function puller(...urls: string[]): Promise<Proposal> {
     let persisted = this.adapter.get();

@@ -1,11 +1,9 @@
-import Proposal from "../../types/Proposal";
 import SyncEngine from "./SyncEngine";
 
 export type Environment = "node" | "browser" | "drive" | "unknown";
 export interface nvCRMi {
     environment: Environment;
     version: string;
-    // proposal: Proposal;
     sync: SyncEngine;
 }
 
@@ -13,7 +11,6 @@ const ENVIRONMENT = determineEnvironment();
 const VERSION = determineVersion();
 
 export default {
-    // proposal: undefined,
     environment: ENVIRONMENT,
     version: VERSION,
     sync: new SyncEngine(ENVIRONMENT)
