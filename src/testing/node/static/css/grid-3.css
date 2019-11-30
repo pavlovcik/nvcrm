@@ -98,10 +98,17 @@ button {
 	cursor: pointer;
 }
 
-#test_post {
+button {
 	border: 1px solid
 }
 
 button:hover {
 	background-color: #ffffff80;
 }
+
+[data-source][contenteditable=true] {
+	background: #ffffff20;
+	text-transform: none;
+}
+
+[data-source][contenteditable=false] {}

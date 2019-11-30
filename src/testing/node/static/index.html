@@ -7,9 +7,11 @@
 	</head>
 
 	<body>
+		<button id="test_post">Upload to Server</button><br>
+		<button id="save_changes">Save Local Changes</button><br>
+		<button id="edit_mode">Toggle Quick Edit Mode</button>
+		<hr>
 		<ui>
-			<button id="test_post">TEST POST</button>
-
 			<h1>Account</h1>
 			<h2>Overview</h2>
 			<p data-source="account.meta.updated"></p>
@@ -35,9 +37,7 @@
 			<p data-source="project.start"></p>
 			<p data-source="project.deposit"></p>
 			<p data-source="project.reason"></p>
-
 			<!-- SERVICE RENDERER FUNCTION (HANDLE DYNAMIC SIZED ARRAYS) -->
-
 			<h2>Services</h2>
 			<span data-template="services">
 				<p data-source="project.services[].title"></p>

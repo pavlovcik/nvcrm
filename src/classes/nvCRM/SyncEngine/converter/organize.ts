@@ -37,9 +37,19 @@ export default function organize(input: { identified: Identified, unexpected: an
 
     let out = { meta: null, project: null, account: null };
 
-    if (iid.proposal) out = iid.proposal.sort(resolve).shift()
-    if (iid.account) out.account = iid.account.sort(latest).shift()
-    if (iid.project) out.project = iid.project.sort(latest).shift()
+    if (iid.proposal) {
+        // console.log(iid.proposal.sort(resolve));
+        out = iid.proposal.sort(resolve).shift()
+    }
+    if (iid.account) {
+        // console.log(iid.account.sort(latest));
+        out.account = iid.account.sort(latest).shift()
+    }
+    if (iid.project) {
+        // console.log(iid.project.sort(latest));
+        out.project = iid.project.sort(latest).shift()
+    }
+
 
     if (!out.project) {
         // @TODO: work with the unexpected inputs here
