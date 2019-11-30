@@ -10,12 +10,12 @@ export default class RenderEngine {
     public render = renderDocument;
     readonly proposal: Proposal = null;
 
-    constructor(query: string, proposal: Proposal) {
+    constructor(query: string, proposal: Proposal, skipTemplates: boolean) {
 
         if (!query) throw new Error(`DOM template target query required.`);
         if (!proposal) throw new Error(`Proposal required to render DOM templates.`);
 
-        templatesGenerator(query, proposal);
+        if (!skipTemplates) templatesGenerator(query, proposal);
         this.proposal = proposal;
     }
 
@@ -39,8 +39,7 @@ function renderDocument(query: string, classname: string) {
         let curry = (function (x: number) {
             return function () {
                 let propertyName = pendingTags[x].getAttribute(attribute);
-                pendingTags[x].className += classname;
-                pendingTags[x].className = pendingTags[x].className.trim();
+                pendingTags[x].classList.add(classname);
 
                 let replaced = propertyName
                     .replace(leftBracketRegEx, `.`)
