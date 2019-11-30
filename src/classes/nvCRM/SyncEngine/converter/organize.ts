@@ -33,8 +33,6 @@ export default function organize(input: { identified: Identified, unexpected: an
      *
      */
 
-    console.log({ input });
-
     let iid = input.identified;
 
     let out = { meta: null, project: null, account: null };
@@ -58,5 +56,4 @@ export default function organize(input: { identified: Identified, unexpected: an
     // if (!output.account) throw new Error(`Account information missing.`);
 
     return out
-
 }

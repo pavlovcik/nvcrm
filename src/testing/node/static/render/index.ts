@@ -9,7 +9,6 @@ import templatesGenerator from './templates';
 export default class RenderEngine {
     public render = renderDocument;
     readonly proposal: Proposal = null;
-    // public query: string = null;
 
     constructor(query: string, proposal: Proposal) {
 
@@ -18,7 +17,6 @@ export default class RenderEngine {
 
         templatesGenerator(query, proposal);
         this.proposal = proposal;
-        // this.query = query;
     }
 
 }
@@ -28,7 +26,7 @@ function renderDocument(query: string, classname: string) {
     const proposal = this.proposal;
     const attribute = query.replace(/[\[|\]]/igm, ``);
     let pendingTags = document.querySelectorAll(query);
-    let x = pendingTags.length;
+    let y = pendingTags.length;
 
     const get = (p, o) =>
         p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
@@ -36,18 +34,26 @@ function renderDocument(query: string, classname: string) {
     const leftBracketRegEx = new RegExp(/\[/igm);
     const rightBracketRegEx = new RegExp(/\]/igm);
 
-    while (x--) {
-        let propertyName = pendingTags[x].getAttribute(attribute);
-        pendingTags[x].className += classname;
-        pendingTags[x].className = pendingTags[x].className.trim();
+    while (y--) {
 
-        let replaced = propertyName
-            .replace(leftBracketRegEx, `.`)
-            .replace(rightBracketRegEx, ``);
+        let curry = (function (x: number) {
+            return function () {
+                let propertyName = pendingTags[x].getAttribute(attribute);
+                pendingTags[x].className += classname;
+                pendingTags[x].className = pendingTags[x].className.trim();
 
-        let parsedPropertyPath = replaced.split(`.`);
+                let replaced = propertyName
+                    .replace(leftBracketRegEx, `.`)
+                    .replace(rightBracketRegEx, ``);
 
-        pendingTags[x].textContent = get(parsedPropertyPath, proposal);
+                let parsedPropertyPath = replaced.split(`.`);
+
+                pendingTags[x].textContent = get(parsedPropertyPath, proposal);
+            }
+        })(y)
+
+        requestAnimationFrame(curry);
+
     }
 
 }
