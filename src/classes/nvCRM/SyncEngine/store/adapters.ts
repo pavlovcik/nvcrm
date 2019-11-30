@@ -13,6 +13,8 @@ export const browser = {
         return this._proposal;
     },
     set: function browserStoreSet(proposal: Proposal): void {
+        // @ts-ignore
+        if ("proposal" !== proposal ?.meta ?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
         this._proposal = proposal;
         localStorage[window.location.pathname] = JSON.stringify(proposal);
     }
