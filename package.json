@@ -15,7 +15,8 @@
     "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
     "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
     "build-browser": "parcel build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
-    "start": "nodemon ./dist/testing/node/"
+    "start": "nodemon ./dist/testing/node/",
+    "debug": "nodemon --inspect ./dist/testing/node/ --ignore ./dist/testing/node/client"
   },
   "keywords": [],
   "author": "Alexander V. Pavlovcik <nvcrm@pavlovcik.com>",

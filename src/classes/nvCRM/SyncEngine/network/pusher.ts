@@ -1,7 +1,7 @@
-import Project from "../../../types/Project";
-import Proposal from "../../../types/Proposal";
-import Account from "../../../types/Account";
-import post from "./xhr/post";
+import Project from "../../../../types/Project";
+import Proposal from "../../../../types/Proposal";
+import Account from "../../../../types/Account";
+import post from "./post";
 
 export default async function pusher(url: string): Promise<any> {
 

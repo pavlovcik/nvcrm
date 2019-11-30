@@ -1,16 +1,18 @@
-import Project from "../../../types/Project";
-import Account from "../../../types/Account";
-import Proposal from "../../../types/Proposal";
+import Account from "../../../../types/Account";
+import Meta from "../../../../types/Meta";
+import Project from "../../../../types/Project";
+import Proposal from "../../../../types/Proposal";
+import self from "../../setup";
 
-import self from "../setup";
 
-export default function compile(contents: { account: Account; project: Project }): Proposal {
+export default function compile(contents: Proposal): Proposal {
 
+    let meta: Meta = contents.meta;
     let account: Account = contents.account;
     let project: Project = contents.project;
 
     return {
-        meta: {
+        meta: meta || {
             type: "proposal",
             updated: new Date().toISOString(),
             source: generateSource(self.version, self.environment),

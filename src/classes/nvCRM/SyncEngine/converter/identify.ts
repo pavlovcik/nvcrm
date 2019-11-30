@@ -1,5 +1,5 @@
-import Project from "../../../types/Project";
-import Proposal from "../../../types/Proposal";
+import Project from "../../../../types/Project";
+import Proposal from "../../../../types/Proposal";
 
 export interface Identified {
     account?: Account[];
@@ -7,9 +7,7 @@ export interface Identified {
     proposal?: Proposal[];
 };
 
-export default function identify(
-    responses: any[]
-): { identified: Identified, unexpected: any } {
+export default function identify(responses: any[]): { identified: Identified, unexpected: any } {
 
     /**
      * Check the metadata for its type and understand what was just received.
@@ -24,7 +22,8 @@ export default function identify(
     return { identified, unexpected }
 
     function parser(object: any) {
-        if (object.meta) {
+        // @ts-ignore
+        if (object?.meta) {
             let type = object.meta.type;
             if (type) {
                 if (type === "project" || type === "account" || type === "proposal") {
@@ -36,7 +35,8 @@ export default function identify(
                 }
             }
         } else {    //  No meta supplied with object... @TODO: gotta figure this one out?
-            throw new TypeError(`Receiving object does not contain "meta" property.`)
+            console.error(`Receiving object does not contain "meta" property.`)
+            // throw new TypeError(`Receiving object does not contain "meta" property.`)
         }
     }
 

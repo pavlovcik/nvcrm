@@ -1,11 +1,8 @@
-// import { resolve as urlToolsResolver } from "url";
-
 export default async function get(...args: string[]): Promise<any> {
     return await Promise.all(args.map(requestAsync));
 }
 
 function requestAsync(url: string): Promise<any> {
-    // url = urlToolsResolver(window.location.href, url);
     return new Promise((resolve, reject) => getSingle(url, resolve, reject));
 }
 

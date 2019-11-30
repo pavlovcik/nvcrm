@@ -1,7 +1,5 @@
 import Proposal from "../../../../types/Proposal";
 
-// import { resolve as urlToolsResolver } from "url";
-
 // export default async function post(...args: string[]): Promise<any> {
 //     return await Promise.all(args.map(postAsync));
 // }

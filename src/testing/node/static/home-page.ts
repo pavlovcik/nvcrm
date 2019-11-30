@@ -1,5 +1,6 @@
 import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./render/index";
+import { nvCRMi } from '../../../classes/nvCRM/setup';
 
 (function () {
 	const
@@ -19,7 +20,7 @@ import RenderEngine from "./render/index";
 		test.project
 	).then(callback)
 
-	function callback(nvcrm: any) {
+	function callback(nvcrm: nvCRMi) {
 
 		new RenderEngine(
 			`[data-template]`,
