@@ -1,4 +1,3 @@
-// import "babel-polyfill";	//	@FIXME:
 import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./render/index";
 
@@ -18,8 +17,7 @@ import RenderEngine from "./render/index";
 	nvCRM(
 		test.account,
 		test.project
-	)	// @TODO: Destructured args
-		.then(callback)
+	).then(callback)
 
 	function callback(nvcrm: any) {
 
@@ -32,18 +30,9 @@ import RenderEngine from "./render/index";
 		);
 
 		let button = document.getElementById(`test_post`);
-		button.onclick = () => nvcrm.sync.push(`/crm/`);
+		button.onclick = () => nvcrm.sync.push(`/crm/`)
 
 		return window["crm"] = nvcrm;
 	}
 
 })();
-
-
-
-
-// function testFunction() {
-// 	// @ts-ignore
-// 	crm.sync.push(`api.inventumdigital.com:8888/crm`)
-// 	return this
-// }

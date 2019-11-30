@@ -1,7 +1,7 @@
 import Proposal from '../../../../../types/Proposal';
 import generateTemplates from './generate';
 
-export default function templates(query: string, proposal: Proposal) {
+export default function templatesGenerator(query: string, proposal: Proposal) {
     let generatedTemplates = generateTemplates(query, proposal);
     processTemplates(generatedTemplates, query);
     return generatedTemplates;

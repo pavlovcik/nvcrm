@@ -1,6 +1,5 @@
 import Proposal from "../../../../types/Proposal";
-import templates from './templates';
-
+import templatesGenerator from './templates';
 
 /**
  * First render the templates,
@@ -9,19 +8,17 @@ import templates from './templates';
 
 export default class RenderEngine {
     public render = renderDocument;
-    public proposal: Proposal = null;
-    public query: string = null;
+    readonly proposal: Proposal = null;
+    // public query: string = null;
 
     constructor(query: string, proposal: Proposal) {
 
         if (!query) throw new Error(`DOM template target query required.`);
         if (!proposal) throw new Error(`Proposal required to render DOM templates.`);
 
-        let templatesOutput = templates(query, proposal);
-        console.log({ templatesOutput });
+        templatesGenerator(query, proposal);
         this.proposal = proposal;
-        this.query = query;
-        // console.log(this);
+        // this.query = query;
     }
 
 }
@@ -33,11 +30,24 @@ function renderDocument(query: string, classname: string) {
     let pendingTags = document.querySelectorAll(query);
     let x = pendingTags.length;
 
+    const get = (p, o) =>
+        p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+
+    const leftBracketRegEx = new RegExp(/\[/igm);
+    const rightBracketRegEx = new RegExp(/\]/igm);
+
     while (x--) {
         let propertyName = pendingTags[x].getAttribute(attribute);
         pendingTags[x].className += classname;
         pendingTags[x].className = pendingTags[x].className.trim();
-        pendingTags[x].textContent = eval(`proposal.${propertyName}`);  //  @TODO: Remove eval somehow?
+
+        let replaced = propertyName
+            .replace(leftBracketRegEx, `.`)
+            .replace(rightBracketRegEx, ``);
+
+        let parsedPropertyPath = replaced.split(`.`);
+
+        pendingTags[x].textContent = get(parsedPropertyPath, proposal);
     }
 
 }
