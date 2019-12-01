@@ -115,4 +115,9 @@ button:hover {
 	background: initial;
 }
 
+toolbar {
+	position: fixed;
+	right:0;
+}
+
 [data-source][contenteditable=false] {}

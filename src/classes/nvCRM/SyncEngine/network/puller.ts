@@ -8,7 +8,9 @@ export default async function puller(...urls: string[]): Promise<Proposal> {
         .then(injectCache)
         .then(this.convert);
 
-    async function injectCache(inbound: any[]) {
-        return [persisted, ...inbound];
+    async function injectCache(inbound: any[]): Promise<any[]> {
+        let flattened = [persisted, ...inbound];
+        // console.log({ flattened });
+        return Promise.all(flattened);
     }
 }

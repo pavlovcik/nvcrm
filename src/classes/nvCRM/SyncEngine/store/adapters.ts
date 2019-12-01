@@ -5,7 +5,7 @@ import resolver from "../converter/resolver";
 
 export const browser = {
     /*... understands how to work with localStorage */
-    _proposal: (function () {
+    _state: (function () {
         try {
             return JSON.parse(localStorage[window.location.pathname]);
         } catch (e) {
@@ -13,16 +13,15 @@ export const browser = {
         }
     })(),
     get: function browserStoreGet(): Proposal {
-        return this._proposal;
+        return this._state;
     },
     set: function browserStoreSet(proposal: Proposal): void {
         // @ts-ignore
         if ("proposal" !== proposal ?.meta ?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
 
-        let test = [this._proposal, proposal].sort(resolver);
+        let test = [this._state, proposal].sort(resolver);   //  @TODO: fix resolver syntax
         let latest = test.pop();
-
-        this._proposal = latest;
+        this._state = latest;
         localStorage[window.location.pathname] = JSON.stringify(proposal);
     }
 };
@@ -31,14 +30,14 @@ export const browser = {
 
 export const node = {
     /*... understands how to work with JSON file storage and fs.write */
-    _proposal: null,
+    _state: null,
     get: function nodeStoreGet(): Proposal {
-        return this._proposal
+        return this._state
     },
     set: function nodeStoreSet(proposal: Proposal): Proposal {
         // @ts-ignore
         if ("proposal" !== proposal ?.meta ?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
-        this._proposal = proposal;
+        this._state = proposal;
 
         const fs = require("fs-extra");
         const accountName = proposal.account.meta.name.toLowerCase().replace(/\//igm, `-`);

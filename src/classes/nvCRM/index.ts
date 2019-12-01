@@ -1,5 +1,6 @@
 import Proposal from "../../types/Proposal";
 import crm, { nvCRMi } from "./setup";
+import resolver from "./SyncEngine/converter/resolver";
 
 
 const responders = {
@@ -14,12 +15,18 @@ const responders = {
 };
 
 export default async function nvCRM(...mystery: any): Promise<nvCRMi> {
-	let proposal: Proposal = crm.sync.store;
+	// debugger;
+	// let stored: Proposal = crm.sync.store;
 	let x = mystery.length;
 
-	if (x === 1) proposal = await responders[crm.environment](mystery);
-	else proposal = await responders[crm.environment].apply(crm, [...mystery]);
+	let downloaded: Proposal;
 
-	crm.sync.store = proposal;
+	if (x === 1) downloaded = await responders[crm.environment](mystery);
+	else downloaded = await responders[crm.environment].apply(crm, [...mystery]);
+
+	// debugger;
+	// await crm.sync.convert([stored, downloaded]);
+	// crm.sync.store = [stored, downloaded].sort(resolver).pop();   //  @TODO: fix resolver syntax
+
 	return crm
 }

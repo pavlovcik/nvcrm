@@ -35,28 +35,41 @@ export default function organize(input: { identified: Identified, unexpected: an
 
     let iid = input.identified;
 
-    let out = { meta: null, project: null, account: null };
+    let draft = { meta: null, project: null, account: null };
 
+    // @FIXME: this needs to simply add the latest information last, and if that means proposal to clobber everything, so be it. Because loading from cache isn't working...
     if (iid.proposal) {
         // console.log(iid.proposal.sort(resolve));
-        out = iid.proposal.sort(resolve).shift()
+        draft = iid.proposal.sort(resolve).shift()
+        // @TODO: test if it really is outputting the latest.
     }
     if (iid.account) {
         // console.log(iid.account.sort(latest));
-        out.account = iid.account.sort(latest).shift()
+        let account = iid.account.sort(latest).shift();
+        if (
+            new Date(draft.meta.updated) < new Date(account.meta.updated) &&
+            new Date(draft.account.meta.updated) < new Date(account.meta.updated)
+        ) draft.account = account
+        // @TODO: test if it really is outputting the latest.
     }
     if (iid.project) {
         // console.log(iid.project.sort(latest));
-        out.project = iid.project.sort(latest).shift()
+        let project = iid.project.sort(latest).shift();
+        if (
+            new Date(draft.meta.updated) < new Date(project.meta.updated) &&
+            new Date(draft.project.meta.updated) < new Date(project.meta.updated)
+        ) draft.project = project
+
+        // @TODO: test if it really is outputting the latest.
     }
 
 
-    if (!out.project) {
+    if (!draft.project) {
         // @TODO: work with the unexpected inputs here
         console.error(`Project information missing.`);
         // debugger;
     }
-    if (!out.account) {
+    if (!draft.account) {
         // @TODO: work with the unexpected inputs here
         console.error(`Account information missing.`);
         // debugger;
@@ -65,5 +78,5 @@ export default function organize(input: { identified: Identified, unexpected: an
     // if (!output.project) throw new Error(`Project information missing.`);
     // if (!output.account) throw new Error(`Account information missing.`);
 
-    return out
+    return draft
 }
