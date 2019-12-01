@@ -21,7 +21,10 @@ export default async function nvCRM(...mystery: any): Promise<nvCRMi> {
 
 	let downloaded: Proposal;
 
-	if (x === 1) downloaded = await responders[crm.environment](mystery);
+	if (x === 1) {
+		downloaded = await responders[crm.environment](mystery);
+		crm.sync.store = downloaded;
+	}
 	else downloaded = await responders[crm.environment].apply(crm, [...mystery]);
 
 	// debugger;
