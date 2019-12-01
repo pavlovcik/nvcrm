@@ -19,7 +19,14 @@ import { nvCRMi } from '../../../classes/nvCRM/setup';
 		var editMode = false;
 
 		document.body.addEventListener(`keypress`, e => 13 === e.keyCode && saveChangeHandler());
-		document.body.addEventListener(`dblclick`, e => toggleEditMode());
+		document.body.addEventListener(`dblclick`, e => {
+			let tryingToEditThisField = e.path[0].getAttribute(`data-source`) ? e.path[0] : false
+			toggleEditMode()
+			if (tryingToEditThisField) {
+				tryingToEditThisField.focus()
+			// ;debugger;
+			}
+		});
 
 		document.getElementById(`test_post`).onclick = () => nvcrm.sync.push(`/crm/`)
 		document.getElementById(`save_changes`).onclick = saveChangeHandler;

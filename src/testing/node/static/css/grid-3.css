@@ -99,10 +99,14 @@ button {
 }
 
 button {
-	border: 1px solid
+	/* border: 1px solid */
 }
 
 button:hover {
+	background-color: #ffffff40;
+}
+
+button:active {
 	background-color: #ffffff80;
 }
 

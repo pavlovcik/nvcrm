@@ -8,6 +8,9 @@
 	</head>
 
 	<body>
+		<background>
+			<grid></grid>
+		</background>
 		<ui>
 			<h1>Account</h1>
 			<h2>Overview</h2>
@@ -50,13 +53,25 @@
 			</span>
 		</ui>
 		<toolbar>
-			<button id="test_post">Upload to Server</button><br>
-			<button id="save_changes">Save Local Changes</button><br>
-			<button id="edit_mode">Toggle Quick Edit Mode</button><br>
-			<button id="undo">Undo</button><br>
-			<button id="download_from_server">Download from Server</button>
+			<button id="test_post" title="Upload to Server"></button>
+			<button id="download_from_server" title="Download from Server"></button>
+			<button id="save_changes" title="Save Local Changes"></button>
+			<button id="undo" title="Undo"></button>
+			<button id="edit_mode" title="Toggle Quick Edit Mode"></button>
 		</toolbar>
 		<script src="./home-page.ts"></script>
+		<script>
+			var nv = {
+				add: (a, b, c) => {
+					// return a
+					window.nv.fnc = {
+						draw: a
+					}
+				}
+			}
+		</script>
+		<script src="//inventum.digital/code/js/nv/draw.js"></script>
+		<script src="./styled.ts"></script>
 	</body>
 
 </html>
