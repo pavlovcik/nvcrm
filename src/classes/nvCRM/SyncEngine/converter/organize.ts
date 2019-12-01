@@ -4,6 +4,7 @@ import Proposal from "../../../../types/Proposal";
 import { Identified } from "./identify";
 import resolve from "./resolver";
 
+// const MAGIC_NUMBER = 0; //  This is because 0 is falsy.
 
 const latest = (a: Account | Project, b: Account | Project): number => {
     const A = new Date(a.meta.updated);
@@ -35,41 +36,41 @@ export default function organize(input: { identified: Identified, unexpected: an
 
     let iid = input.identified;
 
-    let draft = { meta: null, project: null, account: null };
+    let proposal = { meta: null, project: null, account: null };
 
     // @FIXME: this needs to simply add the latest information last, and if that means proposal to clobber everything, so be it. Because loading from cache isn't working...
     if (iid.proposal) {
         // console.log(iid.proposal.sort(resolve));
-        draft = iid.proposal.sort(resolve).shift()
+        proposal = iid.proposal.sort(resolve).shift()
         // @TODO: test if it really is outputting the latest.
     }
     if (iid.account) {
         // console.log(iid.account.sort(latest));
         let account = iid.account.sort(latest).shift();
         if (
-            new Date(draft.meta.updated) < new Date(account.meta.updated) &&
-            new Date(draft.account.meta.updated) < new Date(account.meta.updated)
-        ) draft.account = account
+            new Date(proposal ?.meta ?.updated || 0) < new Date(account ?.meta ?.updated || 0) &&
+            new Date(proposal ?.account ?.meta ?.updated || 0) < new Date(account ?.meta ?.updated || 0)
+        ) proposal.account = account
         // @TODO: test if it really is outputting the latest.
     }
     if (iid.project) {
         // console.log(iid.project.sort(latest));
         let project = iid.project.sort(latest).shift();
         if (
-            new Date(draft.meta.updated) < new Date(project.meta.updated) &&
-            new Date(draft.project.meta.updated) < new Date(project.meta.updated)
-        ) draft.project = project
+            new Date(proposal ?.meta ?.updated || 0) < new Date(project ?.meta ?.updated || 0) &&
+            new Date(proposal ?.project ?.meta ?.updated || 0) < new Date(project ?.meta ?.updated || 0)
+        ) proposal.project = project
 
         // @TODO: test if it really is outputting the latest.
     }
 
 
-    if (!draft.project) {
+    if (!proposal.project) {
         // @TODO: work with the unexpected inputs here
         console.error(`Project information missing.`);
         // debugger;
     }
-    if (!draft.account) {
+    if (!proposal.account) {
         // @TODO: work with the unexpected inputs here
         console.error(`Account information missing.`);
         // debugger;
@@ -78,5 +79,5 @@ export default function organize(input: { identified: Identified, unexpected: an
     // if (!output.project) throw new Error(`Project information missing.`);
     // if (!output.account) throw new Error(`Account information missing.`);
 
-    return draft
+    return proposal
 }

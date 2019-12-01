@@ -1,0 +1,11 @@
+html {
+	color: #fff;
+	font: 400 24px/1 "Proxima Nova", system-ui;
+	text-rendering: geometricPrecision;
+}
+
+body {
+	background-color: #000;
+	background-image: url(/png/grid-1.png);
+	margin: 0;
+}

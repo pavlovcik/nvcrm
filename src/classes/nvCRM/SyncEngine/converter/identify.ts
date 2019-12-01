@@ -22,21 +22,23 @@ export default function identify(responses: any[]): { identified: Identified, un
     return { identified, unexpected }
 
     function parser(object: any) {
-        // @ts-ignore
-        if (object?.meta) {
-            let type = object.meta.type;
-            if (type) {
-                if (type === "project" || type === "account" || type === "proposal") {
-                    if (!identified[type]) identified[type] = [object];
-                    else identified[type].push(object)
-                } else {
-                    if (!unexpected[type]) unexpected[type] = [object];
-                    else unexpected[type].push(object)
+        if (object) {
+            // @ts-ignore
+            if (object ?.meta) {
+                let type = object.meta.type;
+                if (type) {
+                    if (type === "project" || type === "account" || type === "proposal") {
+                        if (!identified[type]) identified[type] = [object];
+                        else identified[type].push(object)
+                    } else {
+                        if (!unexpected[type]) unexpected[type] = [object];
+                        else unexpected[type].push(object)
+                    }
                 }
+            } else {    //  No meta supplied with object... @TODO: gotta figure this one out?
+                console.error(`Receiving object does not contain "meta" property.`)
+                // throw new TypeError(`Receiving object does not contain "meta" property.`)
             }
-        } else {    //  No meta supplied with object... @TODO: gotta figure this one out?
-            console.error(`Receiving object does not contain "meta" property.`)
-            // throw new TypeError(`Receiving object does not contain "meta" property.`)
         }
     }
 

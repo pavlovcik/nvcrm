@@ -1,6 +1,6 @@
 import Proposal from "../../../../types/Proposal";
 
-export default function resolver(a: Proposal, b: Proposal): number {
+export default function resolver(a: Proposal | null, b: Proposal | null): number {
 
     /**
      * This simply needs to compare timestamps between competing copies of the data.
@@ -15,13 +15,13 @@ export default function resolver(a: Proposal, b: Proposal): number {
      */
 
 
-    const A_META = new Date(a.meta.updated);
-    const A_ACCOUNT = new Date(a.account.meta.updated);
-    const A_PROJECT = new Date(a.project.meta.updated);
+    const A_META = new Date(a ?.meta ?.updated || 0);
+    const A_ACCOUNT = new Date(a ?.account ?.meta ?.updated || 0);
+    const A_PROJECT = new Date(a ?.project ?.meta ?.updated || 0);
 
-    const B_META = new Date(b.meta.updated);
-    const B_ACCOUNT = new Date(b.account.meta.updated);
-    const B_PROJECT = new Date(b.project.meta.updated);
+    const B_META = new Date(b ?.meta ?.updated || 0);
+    const B_ACCOUNT = new Date(b ?.account ?.meta ?.updated || 0);
+    const B_PROJECT = new Date(b ?.project ?.meta ?.updated || 0);
 
     let score = [0, 0];
 
