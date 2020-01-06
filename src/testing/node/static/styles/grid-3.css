@@ -12,7 +12,7 @@ body {
 
 #Main {
 	/* position: absolute; */
-	display:block;
+	display: block;
 	margin: 24px;
 	height: calc(100vh - 24px);
 	width: calc(100vw - 24px);
@@ -86,6 +86,17 @@ p {
 	display: inline;
 }
 
+[data-source*="duration.track"] {
+	display: none;
+}
+[data-source*="duration.track"][contenteditable="true"] {
+	display: inline-block;
+}
+[data-source*="duration.track"][contenteditable="true"]::after {
+	content: " (track)";
+	display: inline;
+}
+
 h1,
 h2,
 h3,
@@ -111,12 +122,12 @@ button:active {
 	background-color: #ffffff80;
 }
 
-[data-source][contenteditable=true] {
+[data-source][contenteditable="true"] {
 	background: #ffffff20;
 	text-transform: none;
 }
 
-[data-source][contenteditable=true]:hover {
+[data-source][contenteditable="true"]:hover {
 	background: initial;
 }
 
@@ -126,4 +137,5 @@ toolbar {
 	top: 0;
 }
 
-[data-source][contenteditable=false] {}
+[data-source][contenteditable="false"] {
+}

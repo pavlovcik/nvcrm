@@ -1,42 +1,36 @@
 import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./scripts/render/index";
-import { nvCRMi } from '../../../classes/nvCRM/setup';
-import outFn from './outfn';
+import { nvCRMi } from "../../../classes/nvCRM/setup";
+import outFn from "./outfn";
 
-
-(function () {
+(function() {
 	const test = { proposal: `/client/proposal.json`, account: `/client/wami/account.json`, project: `/client/wami/q4-2019/project.json` },
 		live = { account: `//client.inventumdigital.com:8888/joyre/account.json`, scope: `//client.inventumdigital.com:8888/joyre/q1-2020/scope.json`, project: `//client.inventumdigital.com:8888/joyre/q1-2020/project.json` };
 
-	nvCRM(test.account, test.project).then(callback)
+	nvCRM(test.account, test.project).then(callback);
 
 	function callback(nvcrm: nvCRMi) {
-
 		uiSetup(nvcrm);
 
 		outFn(() => {
-			new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`)
+			new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`);
 		});
 
-		return window["crm"] = nvcrm;
+		return (window["crm"] = nvcrm);
 	}
 
 	function uiSetup(nvcrm: nvCRMi) {
-
 		var editMode = false;
 
 		document.body.addEventListener(`keypress`, e => 13 === e.keyCode && saveChangeHandler());
 		document.body.addEventListener(`dblclick`, e => {
 			// @ts-ignore
-			let tryingToEditThisField = e.path[0].getAttribute(`data-source`) ? e.path[0] : false
-			toggleEditMode()
-			if (tryingToEditThisField) {
-				tryingToEditThisField.focus()
-				// ;debugger;
-			}
+			let tryingToEditThisField = e.path[0].getAttribute(`data-source`) ? e.path[0] : false;
+			toggleEditMode();
+			if (tryingToEditThisField) tryingToEditThisField.focus();
 		});
 
-		document.getElementById(`test_post`).onclick = () => nvcrm.sync.push(`/crm/`)
+		document.getElementById(`test_post`).onclick = () => nvcrm.sync.push(`/crm/`);
 		document.getElementById(`save_changes`).onclick = saveChangeHandler;
 		document.getElementById(`edit_mode`).onclick = toggleEditMode;
 		document.getElementById(`undo`).onclick = undoChangeHandler;
@@ -47,9 +41,7 @@ import outFn from './outfn';
 			console.log(`*** quick edit mode toggled ***`);
 			let sources = document.querySelectorAll(`[data-source]`);
 			let x = sources.length;
-			while (x--) {
-				sources[x].setAttribute(`contenteditable`, editMode.toString());
-			}
+			while (x--) sources[x].setAttribute(`contenteditable`, editMode.toString());
 		}
 
 		function undoChangeHandler() {
@@ -57,7 +49,6 @@ import outFn from './outfn';
 		}
 
 		async function downloadFromServer() {
-
 			let account = await fetch(test.project);
 			account = await account.json();
 			let project = await fetch(test.account);
@@ -67,7 +58,6 @@ import outFn from './outfn';
 		}
 
 		function saveChangeHandler() {
-
 			/**
 			 * For those quick edits!!
 			 *  */
@@ -78,8 +68,6 @@ import outFn from './outfn';
 			let sources = document.querySelectorAll(`[data-source]`);
 			let x = sources.length;
 
-			let countBySource = {};
-
 			while (x--) {
 				let source = sources[x];
 				let parsedContent = source.textContent.trim();
@@ -87,32 +75,44 @@ import outFn from './outfn';
 				let before = eval(`crm.sync.adapter._state.${address}`);
 				let after = parsedContent;
 
-				if (before != after) {	//	@FIXME: caching system required to know if a value was just changed right now by a user.
-					changeLog.push({
+				if (before != after) {
+					//	Caching system required to know if a property value was just changed right now by a user.
+					let y = changeLog.length;
+					let skipme = false; //	If the property was modified then skip checking all future occurences. @TODO: render and sync all instances of property.
+					while (y--) {
+						if (changeLog[y].address == address) {
+							skipme = true;
+							break;
+						}
+					}
+
+					if (skipme) {
+						continue;
+					}
+
+					let logfile = {
 						before,
 						after,
 						address,
 						type: address.split(`.`).shift()
-					});
-					console.log(`"${address}" updated from "${before}" to "${after}"!`);
-					before = after;
-					eval(`crm.sync.adapter._state.${address} = after`);	//	update model
-				}
-				// else {
-				// 	// count because if there is one instance changed out of like 100 that means the user updated one render of the property, which is normal.
-				// 	// console.log(x);
-				// 	if (void 0 == countBySource[address]) countBySource[address] = 0
-				// 	else ++countBySource[address]
-				// }
+					};
 
+					changeLog.push(logfile);
+
+					console.log(`"${address}" updated from "${before}" to "${after}"!`);
+					// before = after;
+					eval(`crm.sync.adapter._state.${address} = after`); //	update model
+
+					new RenderEngine(`[data-template]`, crm.sync.adapter._state, true).render(`[data-source]`, `ready`);	// @FIXME: check if can use `(nv?)crm.sync.store` or must use `crm.sync.adapter._state`
+
+				}
 			}
 			console.log({ changeLog });
-			console.log({ countBySource })
 			x = changeLog.length;
 			if (x) crm.sync.adapter._state.meta.updated = new Date().toISOString();
 
 			let types = [];
-			while (x--) types.push(changeLog[x].type)
+			while (x--) types.push(changeLog[x].type);
 
 			let modifiedCategories = types.filter((item, i, ar) => ar.indexOf(item) === i);
 
@@ -121,7 +121,7 @@ import outFn from './outfn';
 
 			console.log(`*** changes saved ***`);
 			console.log({ modifiedCategories });
-			crm.sync.store = crm.sync.adapter._state
+			crm.sync.store = crm.sync.adapter._state;
 		}
 	}
 })();
