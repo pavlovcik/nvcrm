@@ -11,16 +11,12 @@
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
-
-    "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
-    "watch-browser": "parcel watch ./src/testing/node/static/*.html --out-dir ./dist/testing/node/static/ --target browser",
-
-    "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node/ --target node",
-    "build-browser": "parcel build ./src/testing/node/static/*.html --out-dir ./dist/testing/node/static/ --target browser",
-
+    "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
+    "watch-browser": "parcel watch ./src/testing/node/static/styled/index.html --out-dir ./dist/testing/node/static --target browser",
+    "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
+    "build-browser": "parcel build ./src/testing/node/static/styled/index.html --out-dir ./dist/testing/node/static --target browser",
     "start": "node ./dist/testing/node/",
     "debug": "nodemon --inspect ./dist/testing/node/ --ignore ./dist/testing/node/client",
-
     "build-docs": "npx --no-install typedoc ./src/ --exclude node_modules --ignoreCompilerErrors --target ES6",
     "read-docs": "static ./docs/"
   },

@@ -29,7 +29,13 @@ function renderDocument(query: string, classname: string) {
     let y = pendingTags.length;
 
     const get = (p, o) =>
-        p.reduce((xs, x) => (xs && xs[x]) ? xs[x] : null, o)
+        p.reduce((xs, x) => {
+            if (xs) {
+                if (xs[x] == 0) return 0
+                if (xs[x]) return xs[x]
+                else return null
+            }
+        }, o);
 
     const leftBracketRegEx = new RegExp(/\[/igm);
     const rightBracketRegEx = new RegExp(/\]/igm);

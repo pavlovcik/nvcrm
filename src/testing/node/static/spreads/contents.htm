@@ -1,0 +1,47 @@
+<!-- <link rel="stylesheet" href="../../proposal.css" /> -->
+<div id='toc'></div>
+<script>
+(function() {
+    var
+        spreads = nv.spr.injected,
+        a = -1,
+        b = spreads.length,
+        _ol = document.createElement('OL'),
+        _li = document.createElement('LI'),
+        dfg = document.createDocumentFragment();
+
+    while (++a < b) {
+        var
+            selected_spread = spreads[a].selector,
+            selected_spread_headers = selected_spread.getElementsByTagName('H1'),
+            selected_spread_sub_headers = selected_spread.getElementsByTagName('H2'),
+            c = -1,
+            d = selected_spread_sub_headers.length,
+            ol = _ol.cloneNode();
+
+        var e = -1;
+        var f = selected_spread_headers.length;
+
+        while (++e < f) {
+
+            while (++c < d) {
+                var li = _li.cloneNode();
+                var id = '#' + selected_spread_sub_headers[c].textContent.replace(/\s/g, '_').toLowerCase();
+                li.innerHTML = ['<a href="', id, '">', selected_spread_sub_headers[c].textContent, '</a>'].join('');
+                selected_spread_sub_headers[c].id = id.slice(1);
+                li.className = selected_spread_sub_headers[c].tagName;
+                ol.appendChild(li);
+                selected_spread_sub_headers[c].innerHTML = li.innerHTML;
+            }
+
+            var toc_header = document.createDocumentFragment();
+            toc_header.appendChild(selected_spread_headers[e].cloneNode(true));
+            dfg.appendChild(toc_header);
+            dfg.appendChild(ol);
+        }
+    }
+
+    toc.appendChild(dfg);
+})();
+</script>
+<!-- <script src="../../proposal.js"></script> -->

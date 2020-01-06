@@ -1,0 +1,39 @@
+<h1>Account</h1>
+<h2>Overview</h2>
+<p data-source="account.meta.updated" title="[metadata] Account updated date"></p>
+<p data-source="account.meta.source" title="[metadata] Account source"></p>
+<p data-source="account.meta.name" title="[metadata] Account name"></p>
+<h2>Client</h2>
+<p data-source="account.client.contact.name" title="Client contact name"></p>
+<p data-source="account.client.contact.role" title="Client contact role"></p>
+<p data-source="account.client.contact.email" title="Client contact email address"></p>
+<p data-source="account.client.contact.address" title="Client contact address"></p>
+<p data-source="account.client.contact.phone" title="Client contact phone number"></p>
+<p data-source="account.client.entity.dba" title="Client corporate dba"></p>
+<p data-source="account.client.entity.name" title="Client corporation name"></p>
+<h2>Agent</h2>
+<p data-source="account.agent.name" title="Account agent name"></p>
+<p data-source="account.agent.role" title="Account agent role"></p>
+<p data-source="account.agent.email" title="Account agent email"></p>
+<h1>Project</h1>
+<h2>Overview</h2>
+<p data-source="project.meta.updated" title="Project meta update"></p>
+<p data-source="project.meta.source" title="Project meta source"></p>
+<p data-source="project.meta.name" title="Project meta name"></p>
+<p data-source="project.start" title="Project start"></p>
+<p data-source="project.deposit" title="Project deposit"></p>
+<p data-source="project.reason" title="Project reason"></p>
+<!-- SERVICE RENDERER FUNCTION (HANDLE DYNAMIC SIZED ARRAYS) -->
+<h2>Services</h2>
+<span data-template="services">
+	<p data-source="project.services[].title" title="Service's title"></p>
+	<p data-source="project.services[].description" title="Service's description"></p>
+	<p data-source="project.services[].budget" title="Service's budget"></p>
+	<p data-source="project.services[].duration.weeks" title="Service's duration of weeks"></p>
+	<p data-source="project.services[].duration.track" title="Service's duration track"></p>
+</span>
+<h2>Deliverables</h2>
+<span data-template="deliverables">
+	<p data-source="project.services[].deliverables[].title" title="Service's deliverables title"></p>
+	<p data-source="project.services[].deliverables[].description" title="Service's deliverables description"></p>
+</span>

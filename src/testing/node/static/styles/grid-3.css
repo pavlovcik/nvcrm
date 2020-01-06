@@ -6,12 +6,13 @@ html {
 
 body {
 	background-color: #000;
-	background-image: url(/png/grid-1.png);
+	/* background-image: url(/images/grid-1.png); */
 	margin: 0;
 }
 
-ui {
-	position: absolute;
+#Main {
+	/* position: absolute; */
+	display:block;
 	margin: 24px;
 	height: calc(100vh - 24px);
 	width: calc(100vw - 24px);
@@ -22,7 +23,7 @@ hr {
 	width: 100%;
 	opacity: 0.5;
 	border: none;
-	background: url(/png/stripe.png);
+	/* background: url(/images/stripe.png); */
 	margin: 0;
 	position: absolute;
 	mix-blend-mode: screen;
@@ -51,12 +52,12 @@ p {
 	margin-block-end: 0;
 }
 
-p {
+[data-source]p {
 	opacity: 0;
 	transition: 1s all ease-in-out;
 }
 
-p.ready {
+[data-source]p.ready {
 	opacity: 1;
 }
 
@@ -121,7 +122,8 @@ button:active {
 
 toolbar {
 	position: fixed;
-	right:0;
+	right: 0;
+	top: 0;
 }
 
 [data-source][contenteditable=false] {}

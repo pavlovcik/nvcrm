@@ -1,6 +1,8 @@
 import nvCRM from "../../../classes/nvCRM";
-import RenderEngine from "./render/index";
+import RenderEngine from "./scripts/render/index";
 import { nvCRMi } from '../../../classes/nvCRM/setup';
+import outFn from './outfn';
+
 
 (function () {
 	const test = { proposal: `/client/proposal.json`, account: `/client/wami/account.json`, project: `/client/wami/q4-2019/project.json` },
@@ -9,8 +11,13 @@ import { nvCRMi } from '../../../classes/nvCRM/setup';
 	nvCRM(test.account, test.project).then(callback)
 
 	function callback(nvcrm: nvCRMi) {
-		new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`);
+
 		uiSetup(nvcrm);
+
+		outFn(() => {
+			new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`)
+		});
+
 		return window["crm"] = nvcrm;
 	}
 
@@ -20,11 +27,12 @@ import { nvCRMi } from '../../../classes/nvCRM/setup';
 
 		document.body.addEventListener(`keypress`, e => 13 === e.keyCode && saveChangeHandler());
 		document.body.addEventListener(`dblclick`, e => {
+			// @ts-ignore
 			let tryingToEditThisField = e.path[0].getAttribute(`data-source`) ? e.path[0] : false
 			toggleEditMode()
 			if (tryingToEditThisField) {
 				tryingToEditThisField.focus()
-			// ;debugger;
+				// ;debugger;
 			}
 		});
 
@@ -49,7 +57,6 @@ import { nvCRMi } from '../../../classes/nvCRM/setup';
 		}
 
 		async function downloadFromServer() {
-			var state = { count: 0 };
 
 			let account = await fetch(test.project);
 			account = await account.json();
@@ -70,13 +77,17 @@ import { nvCRMi } from '../../../classes/nvCRM/setup';
 			let changeLog = [];
 			let sources = document.querySelectorAll(`[data-source]`);
 			let x = sources.length;
+
+			let countBySource = {};
+
 			while (x--) {
 				let source = sources[x];
 				let parsedContent = source.textContent.trim();
 				let address = sources[x].getAttribute(`data-source`);
 				let before = eval(`crm.sync.adapter._state.${address}`);
 				let after = parsedContent;
-				if (before != after) {
+
+				if (before != after) {	//	@FIXME: caching system required to know if a value was just changed right now by a user.
 					changeLog.push({
 						before,
 						after,
@@ -85,10 +96,18 @@ import { nvCRMi } from '../../../classes/nvCRM/setup';
 					});
 					console.log(`"${address}" updated from "${before}" to "${after}"!`);
 					before = after;
-					eval(`crm.sync.adapter._state.${address} = after`);
+					eval(`crm.sync.adapter._state.${address} = after`);	//	update model
 				}
+				// else {
+				// 	// count because if there is one instance changed out of like 100 that means the user updated one render of the property, which is normal.
+				// 	// console.log(x);
+				// 	if (void 0 == countBySource[address]) countBySource[address] = 0
+				// 	else ++countBySource[address]
+				// }
+
 			}
 			console.log({ changeLog });
+			console.log({ countBySource })
 			x = changeLog.length;
 			if (x) crm.sync.adapter._state.meta.updated = new Date().toISOString();
 
