@@ -68,12 +68,12 @@ export default function organize(input: { identified: Identified, unexpected: an
     if (!proposal.project) {
         // @TODO: work with the unexpected inputs here
         console.error(`Project information missing.`);
-        // debugger;
+        //
     }
     if (!proposal.account) {
         // @TODO: work with the unexpected inputs here
         console.error(`Account information missing.`);
-        // debugger;
+        //
     }
 
     // if (!output.project) throw new Error(`Project information missing.`);

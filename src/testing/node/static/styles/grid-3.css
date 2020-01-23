@@ -76,6 +76,7 @@ p {
 	font-weight: 100;
 }
 
+[data-source*="deposit"]::before,
 [data-source*="budget"]::before {
 	content: "$";
 	display: inline;

@@ -1,7 +1,7 @@
 import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./scripts/render/index";
 import { nvCRMi } from "../../../classes/nvCRM/setup";
-import outFn from "./outfn";
+import loadSpreads from "./loadSpreads";
 
 (function() {
 	const test = { proposal: `/client/proposal.json`, account: `/client/wami/account.json`, project: `/client/wami/q4-2019/project.json` },
@@ -12,9 +12,8 @@ import outFn from "./outfn";
 	function callback(nvcrm: nvCRMi) {
 		uiSetup(nvcrm);
 
-		outFn(() => {
-			new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`);
-		});
+
+		loadSpreads(() => new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`));
 
 		return (window["crm"] = nvcrm);
 	}
@@ -72,7 +71,7 @@ import outFn from "./outfn";
 				let source = sources[x];
 				let parsedContent = source.textContent.trim();
 				let address = sources[x].getAttribute(`data-source`);
-				let before = eval(`crm.sync.adapter._state.${address}`);
+				let before = eval(`crm.sync._state.${address}`);
 				let after = parsedContent;
 
 				if (before != after) {
@@ -101,27 +100,26 @@ import outFn from "./outfn";
 
 					console.log(`"${address}" updated from "${before}" to "${after}"!`);
 					// before = after;
-					eval(`crm.sync.adapter._state.${address} = after`); //	update model
+					eval(`crm.sync._state.${address} = after`); //	update model
 
-					new RenderEngine(`[data-template]`, crm.sync.adapter._state, true).render(`[data-source]`, `ready`);	// @FIXME: check if can use `(nv?)crm.sync.store` or must use `crm.sync.adapter._state`
-
+					new RenderEngine(`[data-template]`, crm.sync._state, true).render(`[data-source]`, `ready`); // @FIXME: check if can use `(nv?)crm.sync.store` or must use `crm.sync._state`
 				}
 			}
 			console.log({ changeLog });
 			x = changeLog.length;
-			if (x) crm.sync.adapter._state.meta.updated = new Date().toISOString();
+			if (x) crm.sync._state.meta.updated = new Date().toISOString();
 
 			let types = [];
 			while (x--) types.push(changeLog[x].type);
 
 			let modifiedCategories = types.filter((item, i, ar) => ar.indexOf(item) === i);
 
-			if (modifiedCategories.includes(`account`)) crm.sync.adapter._state.account.meta.updated = new Date().toISOString();
-			if (modifiedCategories.includes(`project`)) crm.sync.adapter._state.project.meta.updated = new Date().toISOString();
+			if (modifiedCategories.includes(`account`)) crm.sync._state.account.meta.updated = new Date().toISOString();
+			if (modifiedCategories.includes(`project`)) crm.sync._state.project.meta.updated = new Date().toISOString();
 
 			console.log(`*** changes saved ***`);
 			console.log({ modifiedCategories });
-			crm.sync.store = crm.sync.adapter._state;
+			crm.sync.store = crm.sync._state;
 		}
 	}
 })();

@@ -1,25 +1,26 @@
-import { Environment } from '../setup';
-import converter from './converter/';
-import resolver from './converter/resolver';
-import puller from './network/puller';
-import pusher from './network/pusher';
-import store from './store/';
+import { Environment } from "../setup";
+// import converter from "./converter/";
+// import resolver from "./converter/resolver";
+// import puller from "./network/puller";
+// import pusher from "./network/pusher";
+import store from "./store/";
 
-export default class SyncEngine {
-    public pull = puller;
-    public push = pusher;
-    public resolve = resolver;
-    public convert = converter;
-    private adapter: Function;
+export default function SyncEngine(environment: Environment) {
+	// public pull = puller;
+	// public push = pusher;
+	// public resolve = resolver;
+	// public convert = converter;
+	// private adapter: Function;
 
-    public get store() {
-        return this.adapter.get()
-    }
-    public set store(proposal) {
-        this.adapter.set(proposal)
-    }
+	this.get = () => {
+		return this.get();
+	};
+	this.set = proposal => {
+		this.set(proposal);
+	};
 
-    constructor(environment: Environment) {
-        this.adapter = store(environment);  // Select storage adapter at runtime
-    }
+	// constructor{
+
+	return store(environment); // Select storage adapter at runtime
+	// }
 }

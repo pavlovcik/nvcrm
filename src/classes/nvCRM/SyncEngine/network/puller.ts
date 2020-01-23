@@ -2,7 +2,7 @@ import Proposal from '../../../../types/Proposal';
 import get from './get';
 
 export default async function puller(...urls: string[]): Promise<Proposal> {
-    let persisted = this.adapter.get();
+]let persisted = this.get();
 
     return await get(...urls)
         .then(injectCache)
