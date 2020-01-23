@@ -12,11 +12,11 @@ export const browser = {
 			return null;
 		}
 	})(),
-	get: function browserStoreGet(): Proposal {
+	load(): Proposal {
 		return this._state;
 	},
-	set: function browserStoreSet(proposal: Proposal): void {
-		// @ts-ignore
+	write(proposal: Proposal) {
+
 		if ("proposal" !== proposal?.meta?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
 
 		let test = [this._state, proposal].sort(resolver); //  @TODO: fix resolver syntax
@@ -31,9 +31,9 @@ export const browser = {
 export const node = {
 	/*... understands how to work with JSON file storage and fs.write */
 	_state: null,
-	// @TODO: check if getter is necessary. syntactic sugar says it should be.
+	// @TODO: check if loadter is necessary. syntactic sugar says it should be.
 
-	// get: async function nodeStoreGet(accountName, projectName): Promise<Proposal> {
+	// load: async function nodeStoreload(accountName, projectName): Promise<Proposal> {
 	// 	const fs = require("fs-extra");
 	// 	// const accountName = proposal.account.meta.name.toLowerCase().replace(/\//gim, `-`);
 	// 	// const projectName = proposal.project.meta.name.toLowerCase().replace(/\//gim, `-`);
@@ -49,7 +49,7 @@ export const node = {
 	// 		project
 	// 	};
 	// },
-	set: function nodeStoreSet(proposal: Proposal): Proposal {
+	write: function nodeStoreSet(proposal: Proposal): Proposal {
 		// @ts-ignore
 		if ("proposal" !== proposal?.meta?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
 		// this._state = proposal; //  @FIXME: temporary for dev convenience
@@ -71,12 +71,12 @@ export const node = {
 
 export const drive = {
 	/*... understands how to work with DriveApp.Folder, DriveApp.File etc. Might have to be async which could be interesting.  */
-	get: () => {
-		console.log(`*** getting from drive ***`);
+	load: () => {
+		console.log(`*** loading from drive ***`);
 
 		return {};
 	},
-	set: () => {
+	write: () => {
 		return function driveStore(proposal: Proposal): Proposal {
 			this.proposal = proposal;
 			return proposal;

@@ -12,8 +12,7 @@ import loadSpreads from "./loadSpreads";
 	function callback(nvcrm: nvCRMi) {
 		uiSetup(nvcrm);
 
-
-		loadSpreads(() => new RenderEngine(`[data-template]`, nvcrm.sync.store, false).render(`[data-source]`, `ready`));
+		loadSpreads(() => new RenderEngine(`[data-template]`, nvcrm.store.load(), false).render(`[data-source]`, `ready`));
 
 		return (window["crm"] = nvcrm);
 	}
@@ -29,7 +28,7 @@ import loadSpreads from "./loadSpreads";
 			if (tryingToEditThisField) tryingToEditThisField.focus();
 		});
 
-		document.getElementById(`test_post`).onclick = () => nvcrm.sync.push(`/crm/`);
+		document.getElementById(`test_post`).onclick = () => nvcrm.store.upload(`/crm/`);
 		document.getElementById(`save_changes`).onclick = saveChangeHandler;
 		document.getElementById(`edit_mode`).onclick = toggleEditMode;
 		document.getElementById(`undo`).onclick = undoChangeHandler;
@@ -44,7 +43,7 @@ import loadSpreads from "./loadSpreads";
 		}
 
 		function undoChangeHandler() {
-			new RenderEngine(`[data-template]`, nvcrm.sync.store, true).render(`[data-source]`, `ready`);
+			new RenderEngine(`[data-template]`, nvcrm.store.load(), true).render(`[data-source]`, `ready`);
 		}
 
 		async function downloadFromServer() {
@@ -71,13 +70,13 @@ import loadSpreads from "./loadSpreads";
 				let source = sources[x];
 				let parsedContent = source.textContent.trim();
 				let address = sources[x].getAttribute(`data-source`);
-				let before = eval(`crm.sync._state.${address}`);
+				let before = eval(`crm.store._state.${address}`);
 				let after = parsedContent;
 
 				if (before != after) {
 					//	Caching system required to know if a property value was just changed right now by a user.
 					let y = changeLog.length;
-					let skipme = false; //	If the property was modified then skip checking all future occurences. @TODO: render and sync all instances of property.
+					let skipme = false; //	If the property was modified then skip checking all future occurences. @TODO: render and store all instances of property.
 					while (y--) {
 						if (changeLog[y].address == address) {
 							skipme = true;
@@ -100,26 +99,26 @@ import loadSpreads from "./loadSpreads";
 
 					console.log(`"${address}" updated from "${before}" to "${after}"!`);
 					// before = after;
-					eval(`crm.sync._state.${address} = after`); //	update model
+					eval(`crm.store._state.${address} = after`); //	update model
 
-					new RenderEngine(`[data-template]`, crm.sync._state, true).render(`[data-source]`, `ready`); // @FIXME: check if can use `(nv?)crm.sync.store` or must use `crm.sync._state`
+					new RenderEngine(`[data-template]`, crm.store._state, true).render(`[data-source]`, `ready`); // @FIXME: check if can use `(nv?)crm.store.load()` or must use `crm.store._state`
 				}
 			}
 			console.log({ changeLog });
 			x = changeLog.length;
-			if (x) crm.sync._state.meta.updated = new Date().toISOString();
+			if (x) crm.store._state.meta.updated = new Date().toISOString();
 
 			let types = [];
 			while (x--) types.push(changeLog[x].type);
 
 			let modifiedCategories = types.filter((item, i, ar) => ar.indexOf(item) === i);
 
-			if (modifiedCategories.includes(`account`)) crm.sync._state.account.meta.updated = new Date().toISOString();
-			if (modifiedCategories.includes(`project`)) crm.sync._state.project.meta.updated = new Date().toISOString();
+			if (modifiedCategories.includes(`account`)) crm.store._state.account.meta.updated = new Date().toISOString();
+			if (modifiedCategories.includes(`project`)) crm.store._state.project.meta.updated = new Date().toISOString();
 
 			console.log(`*** changes saved ***`);
 			console.log({ modifiedCategories });
-			crm.sync.store = crm.sync._state;
+			crm.store.write(crm.store._state);
 		}
 	}
 })();

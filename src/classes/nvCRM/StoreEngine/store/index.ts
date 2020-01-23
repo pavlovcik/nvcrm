@@ -1,10 +1,10 @@
 import { Environment } from "../../setup";
 import * as adapters from "./adapters";
 
-import converter from "../converter/";
+import converter from "../converter";
 import resolver from "../converter/resolver";
-import puller from "../network/puller";
-import pusher from "../network/pusher";
+import downloader from "../network/downloader";
+import uploader from "../network/uploader";
 
 /**
  *
@@ -16,8 +16,8 @@ import pusher from "../network/pusher";
 
 export default function store(environment: Environment): Function {
 	let adapter = adapters[environment];
-	adapter.pull = puller;
-	adapter.push = pusher;
+	adapter.download = downloader;
+	adapter.upload = uploader;
 	adapter.resolve = resolver;
 	adapter.convert = converter;
 	return adapter;

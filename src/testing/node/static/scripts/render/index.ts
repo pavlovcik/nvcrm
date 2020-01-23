@@ -13,7 +13,7 @@ export default class RenderEngine {
 
 	constructor(query: string, proposal: Proposal, skipTemplates: boolean) {
 
-		console.trace(this);
+		// console.trace(this);
 
 		if (!query) throw new Error(`DOM template target query required.`);
 		if (!proposal) throw new Error(`Proposal required to render DOM templates.`);

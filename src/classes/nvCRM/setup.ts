@@ -1,10 +1,10 @@
-import SyncEngine from "./SyncEngine";
+import StoreEngine from "./StoreEngine";
 
 export type Environment = "node" | "browser" | "drive" | "unknown";
 export interface nvCRMi {
     environment: Environment;
     version: string;
-    sync: SyncEngine;
+    store: StoreEngine;
 }
 
 const ENVIRONMENT = determineEnvironment();
@@ -13,7 +13,7 @@ const VERSION = determineVersion();
 export default {
     environment: ENVIRONMENT,
     version: VERSION,
-    sync: new SyncEngine(ENVIRONMENT)
+    store: new StoreEngine(ENVIRONMENT)
 }
 
 function determineEnvironment(): Environment {

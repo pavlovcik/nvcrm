@@ -10,7 +10,7 @@ export default (request, response, next) => {
         console.log(new Date());
         console.log(`*** proposal received ***`);
         console.log({ crm });
-        console.log(crm.sync.store);
+        console.log(crm.store.load());
         return response.sendStatus(200);
     }
 

@@ -1,7 +1,7 @@
 import Proposal from "../../../../types/Proposal";
 import post from "./post";
 
-export default async function pusher(url: string): Promise<any> {
+export default async function uploader(URL: string): Promise<any> {
 
     //  @TODO: design API response.
 
@@ -14,5 +14,5 @@ export default async function pusher(url: string): Promise<any> {
 
     let proposal: Proposal = this.store;
 
-    return await post(url, proposal);
+    return await post(URL, proposal);
 }
