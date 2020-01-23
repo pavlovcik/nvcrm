@@ -16,7 +16,7 @@
     "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
     "build-browser": "parcel build ./src/testing/node/static/styled/index.html --out-dir ./dist/testing/node/static --target browser",
     "start": "node ./dist/testing/node/",
-    "debug": "nodemon --inspect ./dist/testing/node/ --ignore ./dist/testing/node/client",
+    "debug": "nodemon --inspect ./dist/testing/node/ --ignore */testing/node/static/client --verbose",
     "build-docs": "npx --no-install typedoc ./src/ --exclude node_modules --ignoreCompilerErrors --target ES6",
     "read-docs": "static ./docs/"
   },

@@ -20,11 +20,10 @@ const responders = {
 export default async function nvCRM(...mystery: any): Promise<nvCRMi> {
 	let x = mystery.length;
 	let downloaded: Proposal;
+
 	if (x === 1) downloaded = await responders[crm.environment](mystery);
 	else downloaded = await responders[crm.environment].apply(crm, [...mystery]);
 
-	// console.log({ crm });
-	// debugger;
 	crm.store.write(downloaded);
 
 	return crm;

@@ -1,11 +1,12 @@
-import Proposal from "../../../../types/Proposal";
+import Proposal from '../../../../types/Proposal';
 import resolver from "../converter/resolver";
+import compile from '../converter/compile';
 
 /** ====================== **/
 
 export const browser = {
 	/*... understands how to work with localStorage */
-	_state: (function() {
+	_state: (function () {
 		try {
 			return JSON.parse(localStorage[window.location.pathname]);
 		} catch (e) {
@@ -16,7 +17,6 @@ export const browser = {
 		return this._state;
 	},
 	write(proposal: Proposal) {
-
 		if ("proposal" !== proposal?.meta?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
 
 		let test = [this._state, proposal].sort(resolver); //  @TODO: fix resolver syntax
@@ -31,25 +31,26 @@ export const browser = {
 export const node = {
 	/*... understands how to work with JSON file storage and fs.write */
 	_state: null,
-	// @TODO: check if loadter is necessary. syntactic sugar says it should be.
+	load(proposal: Proposal): Proposal {
+		// const fs = require("fs-extra");
+		// const accountName = proposal.account.meta.name.toLowerCase().replace(/\//gim, `-`);
+		// const projectName = proposal.project.meta.name.toLowerCase().replace(/\//gim, `-`);
+		// const directory = `${__dirname}/client`;
 
-	// load: async function nodeStoreload(accountName, projectName): Promise<Proposal> {
-	// 	const fs = require("fs-extra");
-	// 	// const accountName = proposal.account.meta.name.toLowerCase().replace(/\//gim, `-`);
-	// 	// const projectName = proposal.project.meta.name.toLowerCase().replace(/\//gim, `-`);
+		// return await fs.ensureDir(`${directory}/${accountName}/${projectName}/`, async (): Promise<Proposal> => {
 
-	// 	// fs.ensureDir(`${__dirname}/client/${accountName}/${projectName}/`, () => {
-	// 	let account = fs.readFileSync(`${__dirname}/client/${accountName}/account.json`, `UTF-8`);
-	// 	let project = fs.readFileSync(`${__dirname}/client/${accountName}/${projectName}/project.json`, `UTF-8`);
-	// 	// });
-
-	// 	return {
-	// 		meta: null, //  @TODO: figure this one out
-	// 		account,
-	// 		project
-	// 	};
-	// },
-	write: function nodeStoreSet(proposal: Proposal): Proposal {
+		// let account = await fs.readFile(`${directory}/${accountName}/account.json`, `UTF-8`);
+		// let project = await fs.readFile(`${directory}/${accountName}/${projectName}/project.json`, `UTF-8`);
+		// let meta = {	//  @TODO: figure this one out
+		// 	type: "proposal",
+		// 	updated: await fs.stat(`${directory}/${accountName}/${projectName}/project.json`).mtime,
+		// 	source: `${directory}/${accountName}/${projectName}/project.json`,
+		// 	name: null
+		// };
+		return compile(proposal)
+		// });
+	},
+	write(proposal: Proposal): Proposal {
 		// @ts-ignore
 		if ("proposal" !== proposal?.meta?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
 		// this._state = proposal; //  @FIXME: temporary for dev convenience
@@ -62,6 +63,8 @@ export const node = {
 			fs.writeFile(`${__dirname}/client/${accountName}/account.json`, JSON.stringify(proposal.account), `UTF-8`);
 			fs.writeFile(`${__dirname}/client/${accountName}/${projectName}/project.json`, JSON.stringify(proposal.project), `UTF-8`);
 		});
+
+		this._state = proposal;
 
 		return proposal;
 	}
