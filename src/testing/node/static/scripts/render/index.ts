@@ -12,12 +12,8 @@ export default class RenderEngine {
 	readonly proposal: Proposal = null;
 
 	constructor(query: string, proposal: Proposal, skipTemplates: boolean) {
-
-		// console.trace(this);
-
 		if (!query) throw new Error(`DOM template target query required.`);
 		if (!proposal) throw new Error(`Proposal required to render DOM templates.`);
-
 		if (!skipTemplates) templatesGenerator(query, proposal);
 		this.proposal = proposal;
 	}
@@ -42,21 +38,16 @@ function renderDocument(query: string, classname: string) {
 	const rightBracketRegEx = new RegExp(/\]/gim);
 
 	while (y--) {
-		let curry = (function(x: number) {
-			return function() {
+		let curry = (function (x: number) {
+			return function () {
 				let propertyName = pendingTags[x].getAttribute(attribute);
 				pendingTags[x].classList.add(classname);
-
 				let replaced = propertyName.replace(leftBracketRegEx, `.`).replace(rightBracketRegEx, ``);
-
 				let parsedPropertyPath = replaced.split(`.`);
 				let result = get(parsedPropertyPath, proposal);
-
 				pendingTags[x].textContent = result;
-
 			};
 		})(y);
-
 		requestAnimationFrame(curry);
 	}
 }

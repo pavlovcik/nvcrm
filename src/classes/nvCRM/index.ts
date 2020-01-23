@@ -1,18 +1,13 @@
 import Proposal from "../../types/Proposal";
 import crm, { nvCRMi } from "./setup";
-// import resolver from "./StoreEngine/converter/resolver";
 
 const responders = {
-	browser: async (...urls: string[]): Promise<Proposal> => {
-		let proposal = await crm.store.download(...urls);
-		// console.log({proposal})
-		return proposal;
-	},
+	browser: async (...urls: string[]): Promise<Proposal> => await crm.store.download(...urls),
 	node: async (mystery: any[]): Promise<Proposal> => await crm.store.convert(mystery),
-	drive: (o): never => {
+	drive: _ => {
 		throw new Error(`Google Drive environment responder not implemented.`);
 	},
-	unknown: (o): never => {
+	unknown: _ => {
 		throw new Error(`Unknown execution environment.`);
 	}
 };
