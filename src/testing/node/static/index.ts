@@ -2,17 +2,22 @@ import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./scripts/render/index";
 import { nvCRMi } from "../../../classes/nvCRM/setup";
 import loadSpreads from "./loadSpreads";
-import Proposal from "../../../types/Proposal";
 
 (function () {
 	const test = { proposal: `/client/proposal.json`, account: `/client/wami/account.json`, project: `/client/wami/q4-2019/project.json` },
 		live = { account: `//client.inventumdigital.com:8888/joyre/account.json`, scope: `//client.inventumdigital.com:8888/joyre/q1-2020/scope.json`, project: `//client.inventumdigital.com:8888/joyre/q1-2020/project.json` };
 
+	const render = { templateId: `[data-template]`, targetId: `[data-source]`, class: `ready` };
+
 	nvCRM(test.account, test.project).then(callback);
 
 	function callback(nvcrm: nvCRMi) {
 		uiSetup(nvcrm);
-		loadSpreads(() => new RenderEngine(`[data-template]`, nvcrm.store.load(), false).render(`[data-source]`, `ready`));
+
+		loadSpreads(() =>
+			new RenderEngine(render.templateId, nvcrm.store.load(), false)
+				.render(render.targetId, render.class));
+
 		return (window["crm"] = nvcrm);
 	}
 
@@ -31,29 +36,33 @@ import Proposal from "../../../types/Proposal";
 		document.getElementById(`save_changes`).onclick = saveChangeHandler;
 		document.getElementById(`edit_mode`).onclick = toggleEditMode;
 		document.getElementById(`undo`).onclick = undoChangeHandler;
-		document.getElementById(`download_from_server`).onclick = async () => {
-			let proposal = await downloadFromServer();
-			console.log(JSON.stringify(proposal, null, "\t"));
-			new RenderEngine(`[data-template]`, proposal, true).render(`[data-source]`, `ready`);
-		};
+		document.getElementById(`download_from_server`).onclick =
+			async () =>
+				new RenderEngine(render.templateId, await downloadFromServer(), true)
+					.render(render.targetId, render.class);
+
 
 		function toggleEditMode() {
 			editMode = !editMode;
 			console.log(`*** quick edit mode toggled ***`);
-			let sources = document.querySelectorAll(`[data-source]`);
+			let sources = document.querySelectorAll(render.targetId);
 			let x = sources.length;
 			while (x--) sources[x].setAttribute(`contenteditable`, editMode.toString());
 		}
 
 		function undoChangeHandler() {
-			new RenderEngine(`[data-template]`, nvcrm.store.load(), true).render(`[data-source]`, `ready`);
+			new RenderEngine(render.templateId, nvcrm.store.load(), true).render(render.targetId, render.class);
 		}
 
 		async function downloadFromServer() {
 			let account = await fetch(test.account);
 			let project = await fetch(test.project);
-			let proposal = { meta: { type: "TEST", updated: "TEST", source: "TEST", name: "TEST" }, account: await account.json(), project: await project.json() };
-			return proposal;
+			let meta = { type: "TEST", updated: "TEST", source: "TEST", name: "TEST" }	// @FIXME: Not sure what to do here or if it matters
+			return {
+				meta,
+				account: await account.json(),
+				project: await project.json()
+			}
 		}
 
 		function saveChangeHandler() {
@@ -64,7 +73,7 @@ import Proposal from "../../../types/Proposal";
 			if (editMode) toggleEditMode();
 
 			let changeLog = [];
-			let sources = document.querySelectorAll(`[data-source]`);
+			let sources = document.querySelectorAll(render.targetId);
 			let x = sources.length;
 
 			while (x--) {
@@ -101,7 +110,7 @@ import Proposal from "../../../types/Proposal";
 					console.log(`"${address}" updated from "${before}" to "${after}"!`);
 					eval(`crm.store._state.${address} = after`); //	update model
 
-					new RenderEngine(`[data-template]`, crm.store._state, true).render(`[data-source]`, `ready`); // @FIXME: check if can use `(nv?)crm.store.load()` or must use `crm.store._state`
+					new RenderEngine(render.templateId, crm.store._state, true).render(render.targetId, render.class); // @FIXME: check if can use `(nv?)crm.store.load()` or must use `crm.store._state`
 				}
 			}
 			console.log({ changeLog });
