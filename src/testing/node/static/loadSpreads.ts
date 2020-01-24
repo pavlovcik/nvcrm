@@ -1,19 +1,32 @@
-function Spread(html: string) {
+function Spread(html: string, id: string) {
     let section = document.createElement("section");
     let article = document.createElement("article");
     section.appendChild(article);
     article.innerHTML = html;
+    section.id = id;
     return section
 }
 
 export default async function loadSpreads(cb) {
-    let input = { "spreads": ["spreads/specs.htm","spreads/statement of work.htm", "spreads/contents.htm", "spreads/cover letter.htm", "spreads/master services agreement.htm", "spreads/signed.htm"] };
+    let input = {
+        "spreads":
+            [
+                "spreads/specs.htm",
+                "spreads/statement of work.htm",
+                "spreads/contents.htm",
+                "spreads/cover letter.htm",
+                "spreads/master services agreement.htm",
+                "spreads/signed.htm"
+            ]
+    };
+
     let spreads = await _get(...input.spreads);
     // console.log({spreads});
     let dfg = document.createDocumentFragment();
-    spreads.forEach(element => {
-
-        let spread = Spread(element);
+    spreads.forEach((element, index) => {
+        let name = input.spreads[index].split(`/`).pop().split(`.`).shift();
+        let id = name.charAt(0).toUpperCase().concat(name.substring(1));
+        let spread = Spread(element, id);
         dfg.appendChild(spread);
     });
 
