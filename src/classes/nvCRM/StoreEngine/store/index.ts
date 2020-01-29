@@ -5,6 +5,7 @@ import converter from "../converter";
 import resolver from "../converter/resolver";
 import downloader from "../network/downloader";
 import uploader from "../network/uploader";
+import { Store } from "..";
 
 /**
  *
@@ -14,7 +15,7 @@ import uploader from "../network/uploader";
  *
  */
 
-export default function store(environment: Environment): Function {
+export default function store(environment: Environment): Store {
 	let adapter = adapters[environment];
 	adapter.download = downloader;
 	adapter.upload = uploader;
