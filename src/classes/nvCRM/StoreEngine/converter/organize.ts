@@ -4,8 +4,6 @@ import Proposal from "../../../../types/Proposal";
 import { Identified } from "./identify";
 import resolve from "./resolver";
 
-// const MAGIC_NUMBER = 0; //  This is because 0 is falsy.
-
 const latest = (a: Account | Project, b: Account | Project): number => {
     const A = new Date(a.meta.updated);
     const B = new Date(b.meta.updated);

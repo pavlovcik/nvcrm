@@ -1,10 +1,10 @@
-import StoreEngine from "./StoreEngine";
+import StoreEngine, { Store } from "./StoreEngine";
 
 export type Environment = "node" | "browser" | "drive" | "unknown";
 export interface nvCRMi {
     environment: Environment;
     version: string;
-    store: StoreEngine;
+    store: Store;
 }
 
 const ENVIRONMENT = determineEnvironment();
@@ -13,12 +13,11 @@ const VERSION = determineVersion();
 export default {
     environment: ENVIRONMENT,
     version: VERSION,
-    store: new StoreEngine(ENVIRONMENT)
+    store: StoreEngine(ENVIRONMENT)
 }
 
 function determineEnvironment(): Environment {
     let ENVIRONMENT: Environment = "unknown";
-
     if (globalThis) {
         if (globalThis.window) ENVIRONMENT = "browser";
         else if (globalThis.global) ENVIRONMENT = "node";

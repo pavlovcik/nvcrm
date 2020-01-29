@@ -145,6 +145,7 @@ button:active {
 [data-source][contenteditable="true"] {
 	background: #ffffff20;
 	text-transform: none;
+	border-radius: 3px;
 }
 
 [data-source][contenteditable="true"]:hover {

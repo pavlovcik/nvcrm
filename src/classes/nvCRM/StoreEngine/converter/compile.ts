@@ -4,7 +4,6 @@ import Project from "../../../../types/Project";
 import Proposal from "../../../../types/Proposal";
 import self from "../../setup";
 
-
 export default function compile(contents: Proposal): Proposal {
 
     let meta: Meta = contents.meta;
