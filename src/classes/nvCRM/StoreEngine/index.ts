@@ -10,5 +10,5 @@ export interface Store {
 }
 
 export default function StoreEngine(environment: Environment): Store {
-	return <Store>store(environment); // Select storage adapter at runtime
+	return store(environment); // Select storage adapter at runtime
 }
