@@ -18,7 +18,8 @@
     "start": "node ./dist/testing/node/",
     "debug": "nodemon --inspect ./dist/testing/node/ --ignore */testing/node/static/client --verbose",
     "build-docs": "npx --no-install typedoc ./src/ --exclude node_modules --ignoreCompilerErrors --target ES6",
-    "read-docs": "static ./docs/"
+    "read-docs": "static ./docs/",
+    "dev": "./devops/dev.sh"
   },
   "keywords": [],
   "author": "Alexander V. Pavlovcik <nvcrm@pavlovcik.com>",
