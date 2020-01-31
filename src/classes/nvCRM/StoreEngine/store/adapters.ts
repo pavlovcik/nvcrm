@@ -53,7 +53,6 @@ export const node = {
 	write(proposal: Proposal): Proposal {
 		// @ts-ignore
 		if ("proposal" !== proposal?.meta?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
-		// this._state = proposal; //  @FIXME: temporary for dev convenience
 
 		const fs = require("fs-extra");
 		const accountName = proposal.account.meta.name.toLowerCase().replace(/\//gim, `-`);
