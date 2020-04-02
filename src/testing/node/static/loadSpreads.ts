@@ -2,18 +2,19 @@ function Spread(html: string, id: string) {
     let section = document.createElement("section");
     let article = document.createElement("article");
     section.appendChild(article);
+    article = article.attachShadow({ mode: 'open' });
     article.innerHTML = html;
     section.id = id;
     return section
 }
 
-export default async function loadSpreads(cb) {
+export default async function loadSpreads(cb: Function) {
     let input = {
         "spreads":
             [
                 "spreads/specs.htm",
                 "spreads/statement of work.htm",
-                "spreads/contents.htm",
+                // "spreads/contents.htm",
                 "spreads/cover letter.htm",
                 "spreads/master services agreement.htm",
                 "spreads/signed.htm"
@@ -21,7 +22,6 @@ export default async function loadSpreads(cb) {
     };
 
     let spreads = await _get(...input.spreads);
-    // console.log({spreads});
     let dfg = document.createDocumentFragment();
     spreads.forEach((element, index) => {
         let name = input.spreads[index].split(`/`).pop().split(`.`).shift();
@@ -31,9 +31,6 @@ export default async function loadSpreads(cb) {
     });
 
     document.getElementById("Spreads").appendChild(dfg);
-
-
-
     cb()
 }
 
@@ -55,16 +52,9 @@ async function getSingle(url: string, resolve: Function, reject: Function): Prom
             if (xhr.readyState !== 4) return;
             if (xhr.status >= 200 && xhr.status < 300) {
                 let parsed;
-                // try {
                 parsed = xhr.responseText;
-
-                // } catch (e) {
-                //     console.error(`The receiving object failed to parse.`);
-                //     reject(xhr.statusText); //Error
-                // }
                 resolve(parsed); //OK
             } else {
-                // console.error(xhr.responseURL);
                 reject(xhr.statusText); //Error
             }
         };
