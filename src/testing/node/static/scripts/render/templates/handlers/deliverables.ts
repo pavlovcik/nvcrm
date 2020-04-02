@@ -1,5 +1,4 @@
-import Proposal from "../../../../../../types/Proposal";
-import { Deliverable } from '../../../../../../types/Project';
+import Proposal from "../../../../../../../types/Proposal"; import { Deliverable } from "../../../../../../../types/Project";
 
 export default function deliverables(el: Element, proposal: Proposal): DocumentFragment {
     let serviceCount = proposal.project.services.length;

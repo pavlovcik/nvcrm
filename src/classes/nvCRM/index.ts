@@ -1,25 +1,23 @@
 import Proposal from "../../types/Proposal";
-import crm, { nvCRMi } from "./setup";
+import app, { nvCRMi } from "./setup";
 
 const responders = {
-	browser: async (...urls: string[]): Promise<Proposal> => await crm.store.download(...urls),
-	node: async (mystery: any[]): Promise<Proposal> => await crm.store.convert(mystery),
-	drive: _ => {
-		throw new Error(`Google Drive environment responder not implemented.`);
-	},
-	unknown: _ => {
-		throw new Error(`Unknown execution environment.`);
-	}
+	browser: async (...urls: string[]): Promise<Proposal> => await app.store.download(...urls),
+	node: async (mystery: any[]): Promise<Proposal> => await app.store.convert(mystery),
+	drive: _ => alert(`Google Drive environment responder not implemented.`),
+	unknown: _ => alert(`Unknown execution environment.`)
 };
 
 export default async function nvCRM(...mystery: any): Promise<nvCRMi> {
 	let x = mystery.length;
-	let downloaded: Proposal;
+	let downloaded: Proposal | void;
 
-	if (x === 1) downloaded = await responders[crm.environment](mystery);
-	else downloaded = await responders[crm.environment].apply(crm, [...mystery]);
+	if (x === 1) downloaded = await responders[app.environment](mystery);
+	else downloaded = await responders[app.environment].apply(app, [...mystery]);
 
-	crm.store.write(downloaded);
+	if (typeof downloaded == void 0) throw new TypeError(`downloaded should be in Proposal format`);
 
-	return crm;
+	app.store.write(downloaded);
+
+	return app;
 }

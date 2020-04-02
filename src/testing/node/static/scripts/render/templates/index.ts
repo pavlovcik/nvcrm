@@ -1,26 +1,45 @@
-import Proposal from '../../../../../types/Proposal';
 import generateTemplates from './generate';
+import handlers from './handlers';
+import Proposal from '../../../../../../types/Proposal';
 
-export default function templatesGenerator(query: string, proposal: Proposal) {
+export default function templatesGenerator(query: string, proposal: Proposal): typeof handlers {
     let generatedTemplates = generateTemplates(query, proposal);
-    processTemplates(generatedTemplates, query);
+    renderTemplatesToDOM(generatedTemplates, query);
     return generatedTemplates;
 }
+// interface TemplateType { [key: string]: DocumentFragment }
 
-function processTemplates(templates: any, query: string) {
-    let els = document.querySelectorAll(query);
-    let x = els.length;
+function renderTemplatesToDOM(templates: (typeof handlers), query: string): void {
+
+    let shadowRoots = document.querySelectorAll(`#Spreads>section>article`);
     let output = {};
-    const cachedRegex = new RegExp(/[\[|\]]/igm);
-    while (x--) {
-        let templateId = els[x].getAttribute(query.replace(cachedRegex, ``));
-        output[templateId] = writeToDOM(els[x], templates[templateId]);
-    }
-    return output
+
+    shadowRoots.forEach(article => {
+        let els = article.shadowRoot.querySelectorAll(query)
+        // let els = document.querySelectorAll(query);
+        let x = els.length;
+        const cachedRegex = new RegExp(/[\[|\]]/igm);
+        while (x--) {
+            let templateId = els[x].getAttribute(query.replace(cachedRegex, ``));
+            output[templateId] = templates[templateId];
+            writeToDOM(els[x], templates[templateId]);
+        }
+    });
+
+    // return output
 }
 
 function writeToDOM(target: Element, template: DocumentFragment) {
-    const serializer = new XMLSerializer();
-    target.outerHTML = serializer.serializeToString(template);
+    // const serializer = new XMLSerializer();
+    let x = template.childElementCount;
+    let serialized = [];
+    while (x--) {
+        let child = template.children[x];
+        serialized.push(
+            child.innerHTML
+            // serializer.serializeToString(child)
+        );
+    }
+    target.innerHTML = serialized.join('');
     return template
 }

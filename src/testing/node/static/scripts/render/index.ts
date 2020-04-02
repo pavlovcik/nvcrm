@@ -22,32 +22,33 @@ export default class RenderEngine {
 function renderDocument(query: string, classname: string) {
 	const proposal = this.proposal;
 	const attribute = query.replace(/[\[|\]]/gim, ``);
-	let pendingTags = document.querySelectorAll(query);
-	let y = pendingTags.length;
 
-	const get = (p, o) =>
-		p.reduce((xs, x) => {
-			if (xs) {
-				if (xs[x] === 0) return 0;
-				if (xs[x]) return xs[x];
-				else return "";
-			}
-		}, o);
+	let shadowRoots = document.querySelectorAll(`#Spreads>section>article`);
 
-	const leftBracketRegEx = new RegExp(/\[/gim);
-	const rightBracketRegEx = new RegExp(/\]/gim);
+	shadowRoots.forEach(article => {	//	startforeach
 
-	while (y--) {
-		let curry = (function (x: number) {
-			return function () {
-				let propertyName = pendingTags[x].getAttribute(attribute);
-				pendingTags[x].classList.add(classname);
-				let replaced = propertyName.replace(leftBracketRegEx, `.`).replace(rightBracketRegEx, ``);
-				let parsedPropertyPath = replaced.split(`.`);
-				let result = get(parsedPropertyPath, proposal);
-				pendingTags[x].textContent = result;
-			};
-		})(y);
-		requestAnimationFrame(curry);
-	}
+		let pendingTags = article.shadowRoot.querySelectorAll(query);
+		let y = pendingTags.length;
+
+		const get = (p, o) => p.reduce((xs, x) => { if (xs) { if (xs[x] === 0) return 0; if (xs[x]) return xs[x]; else return ""; } }, o);
+
+		const leftBracketRegEx = new RegExp(/\[/gim);
+		const rightBracketRegEx = new RegExp(/\]/gim);
+
+		while (y--) {
+			let curry = (function (x: number) {
+				return function () {
+					let propertyName = pendingTags[x].getAttribute(attribute);
+					pendingTags[x].classList.add(classname);
+					let replaced = propertyName.replace(leftBracketRegEx, `.`).replace(rightBracketRegEx, ``);
+					let parsedPropertyPath = replaced.split(`.`);
+					let result = get(parsedPropertyPath, proposal);
+					pendingTags[x].textContent = result;
+				};
+			})(y);
+			requestAnimationFrame(curry);
+		}
+
+	});	//	endforeach
+
 }

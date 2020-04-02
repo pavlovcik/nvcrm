@@ -2,6 +2,9 @@ import nvCRM from "../../../classes/nvCRM";
 import RenderEngine from "./scripts/render/index";
 import { nvCRMi } from "../../../classes/nvCRM/setup";
 import loadSpreads from "./loadSpreads";
+import Proposal from "../../../types/Proposal";
+
+import global from "./../../../types/global.d";
 
 (function () {
 	const test = { proposal: `/client/proposal.json`, account: `/client/wami/account.json`, project: `/client/wami/q4-2019/project.json` },
@@ -18,7 +21,7 @@ import loadSpreads from "./loadSpreads";
 			new RenderEngine(render.templateId, nvcrm.store.load(), false)
 				.render(render.targetId, render.class));
 
-		return (window["crm"] = nvcrm);
+		return (window["app"] = nvcrm);
 	}
 
 	function uiSetup(nvcrm: nvCRMi) {
@@ -32,14 +35,11 @@ import loadSpreads from "./loadSpreads";
 			if (tryingToEditThisField) tryingToEditThisField.focus();
 		});
 
-		document.getElementById(`test_post`).onclick = () => nvcrm.store.upload(`/crm/`);
+		document.getElementById(`test_post`).onclick = () => nvcrm.store.upload(`/app/`);
 		document.getElementById(`save_changes`).onclick = saveChangeHandler;
 		document.getElementById(`edit_mode`).onclick = toggleEditMode;
 		document.getElementById(`undo`).onclick = undoChangeHandler;
-		document.getElementById(`download_from_server`).onclick =
-			async () =>
-				new RenderEngine(render.templateId, await downloadFromServer(), true)
-					.render(render.targetId, render.class);
+		document.getElementById(`download_from_server`).onclick = async () => new RenderEngine(render.templateId, await downloadFromServer(), true).render(render.targetId, render.class);
 
 
 		function toggleEditMode() {
@@ -54,12 +54,12 @@ import loadSpreads from "./loadSpreads";
 			new RenderEngine(render.templateId, nvcrm.store.load(), true).render(render.targetId, render.class);
 		}
 
-		async function downloadFromServer() {
+		async function downloadFromServer(): Promise<Proposal> {
 			let account = await fetch(test.account);
 			let project = await fetch(test.project);
-			let meta = { type: "TEST", updated: "TEST", source: "TEST", name: "TEST" }	// @FIXME: Not sure what to do here or if it matters
+			// let meta = { type: "proposal", updated: "TEST", source: "TEST", name: "TEST" }	// @FIXME: Not sure what to do here or if it matters
 			return {
-				meta,
+				// meta,
 				account: await account.json(),
 				project: await project.json()
 			}
@@ -80,7 +80,7 @@ import loadSpreads from "./loadSpreads";
 				let source = sources[x];
 				let parsedContent = source.textContent.trim();
 				let address = sources[x].getAttribute(`data-source`);
-				let before = eval(`crm.store._state.${address}`);
+				let before = eval(`app.store._state.${address}`);
 				let after = parsedContent;
 
 				if (before != after) {
@@ -108,26 +108,26 @@ import loadSpreads from "./loadSpreads";
 					changeLog.push(logfile);
 
 					console.log(`"${address}" updated from "${before}" to "${after}"!`);
-					eval(`crm.store._state.${address} = after`); //	update model
+					eval(`app.store._state.${address} = after`); //	update model
 
-					new RenderEngine(render.templateId, crm.store._state, true).render(render.targetId, render.class); // @FIXME: check if can use `(nv?)crm.store.load()` or must use `crm.store._state`
+					new RenderEngine(render.templateId, app.store._state, true).render(render.targetId, render.class); // @FIXME: check if can use `(nv?)app.store.load()` or must use `app.store._state`
 				}
 			}
 			console.log({ changeLog });
 			x = changeLog.length;
-			if (x) crm.store._state.meta.updated = new Date().toISOString();
+			if (x) app.store._state.meta.updated = new Date().toISOString();
 
 			let types = [];
 			while (x--) types.push(changeLog[x].type);
 
 			let modifiedCategories = types.filter((item, i, ar) => ar.indexOf(item) === i);
 
-			if (modifiedCategories.includes(`account`)) crm.store._state.account.meta.updated = new Date().toISOString();
-			if (modifiedCategories.includes(`project`)) crm.store._state.project.meta.updated = new Date().toISOString();
+			if (modifiedCategories.includes(`account`)) app.store._state.account.meta.updated = new Date().toISOString();
+			if (modifiedCategories.includes(`project`)) app.store._state.project.meta.updated = new Date().toISOString();
 
 			console.log(`*** changes saved ***`);
 			console.log({ modifiedCategories });
-			crm.store.write(crm.store._state);
+			app.store.write(app.store._state);
 		}
 	}
 })();
