@@ -16,7 +16,6 @@ function renderTemplatesToDOM(templates: (typeof handlers), query: string): void
 
     shadowRoots.forEach(article => {
         let els = article.shadowRoot.querySelectorAll(query)
-        // let els = document.querySelectorAll(query);
         let x = els.length;
         const cachedRegex = new RegExp(/[\[|\]]/igm);
         while (x--) {

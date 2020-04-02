@@ -35,7 +35,7 @@ import global from "./../../../types/global.d";
 			if (tryingToEditThisField) tryingToEditThisField.focus();
 		});
 
-		document.getElementById(`test_post`).onclick = () => nvcrm.store.upload(`/app/`);
+		document.getElementById(`test_post`).onclick = () => nvcrm.store.upload(`/crm/`);
 		document.getElementById(`save_changes`).onclick = saveChangeHandler;
 		document.getElementById(`edit_mode`).onclick = toggleEditMode;
 		document.getElementById(`undo`).onclick = undoChangeHandler;
@@ -45,9 +45,13 @@ import global from "./../../../types/global.d";
 		function toggleEditMode() {
 			editMode = !editMode;
 			console.log(`*** quick edit mode toggled ***`);
-			let sources = document.querySelectorAll(render.targetId);
-			let x = sources.length;
-			while (x--) sources[x].setAttribute(`contenteditable`, editMode.toString());
+			let shadowRoots = document.querySelectorAll(`#Spreads>section>article`);
+			shadowRoots.forEach(article => {
+				let sources = article.shadowRoot.querySelectorAll(render.targetId);
+				let x = sources.length;
+				while (x--) sources[x].setAttribute(`contenteditable`, editMode.toString());
+			});
+
 		}
 
 		function undoChangeHandler() {
@@ -73,7 +77,21 @@ import global from "./../../../types/global.d";
 			if (editMode) toggleEditMode();
 
 			let changeLog = [];
-			let sources = document.querySelectorAll(render.targetId);
+
+			let sources = [];
+
+			let shadowRoots = document.querySelectorAll(`#Spreads>section>article`);
+			shadowRoots.forEach(article => {
+				let singleSourceCollection = article.shadowRoot.querySelectorAll(render.targetId);
+				let x = singleSourceCollection.length;
+
+				while (x--) {
+					let singleSource = singleSourceCollection[x];
+					sources.push(singleSource);	// @FIXME: not sure of behavior of push will it push the entire domstringlist as one element in array?
+				}
+
+			});
+
 			let x = sources.length;
 
 			while (x--) {
