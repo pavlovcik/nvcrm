@@ -8,8 +8,12 @@ export default async function downloader(...urls: string[]): Promise<Proposal> {
 		.then(injectCache)
 		.then(this.convert);
 
-	async function injectCache(inbound: any[]): Promise<any[]> {
-		let flattened = [persisted, ...inbound];
-		return Promise.all(flattened);
+	async function injectCache(inbound: string[]): Promise<string[]> {
+
+		if (persisted) {
+			inbound.unshift(persisted);
+		}
+
+		return Promise.all(inbound);
 	}
 }

@@ -1,14 +1,14 @@
 import Account from "../../../../types/Account";
-import Meta from "../../../../types/Meta";
+import Meta, { MetaDataTypesAsInterfaces } from "../../../../types/Meta";
 import Project from "../../../../types/Project";
 import Proposal from "../../../../types/Proposal";
 import self from "../../setup";
 
-export default function compile(contents: Proposal): Proposal {
+export default function compile(contents: MetaDataTypesAsInterfaces): Proposal {
 
-    let meta: Meta = contents.meta;
-    let account: Account = contents.account;
-    let project: Project = contents.project;
+    let meta: Meta = (contents as Proposal).meta;
+    let account = (contents as Proposal).account;
+    let project = (contents as Proposal).project;
 
     return {
         meta: meta || {
@@ -29,11 +29,11 @@ export default function compile(contents: Proposal): Proposal {
     function generateName(account: Account, project: Project): string {
         let buffer = null;
 
-        if (account.meta.name) {
+        if (account?.meta?.name) {
             buffer = account.meta.name;
         }
 
-        if (project.meta.name) {
+        if (project?.meta?.name) {
             buffer += `/`;
             buffer += project.meta.name;
         }

@@ -21,7 +21,7 @@ cd ..
 
 trap quitProcess EXIT # INT TERM
 
-rsync -a src/testing/node/static/client/wami dist/testing/node/static/client
+rsync -a src/testing/node/static/client/ dist/testing/node/static/client
 rsync -a src/testing/node/static/images dist/testing/node/static/
 rsync -a src/testing/node/static/spreads dist/testing/node/static/
 rsync -a src/testing/node/static/styled dist/testing/node/static/

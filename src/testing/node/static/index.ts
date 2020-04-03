@@ -7,7 +7,12 @@ import Proposal from "../../../types/Proposal";
 import global from "./../../../types/global.d";
 
 (function () {
-	const test = { proposal: `/client/proposal.json`, account: `/client/wami/account.json`, project: `/client/wami/q4-2019/project.json` },
+	const ACCOUNT = `kairon-labs`;
+	const PROJECT = `q2-2020`;
+	// const ACCOUNT = `wami`;
+	// const PROJECT = `q4-2019`;
+
+	const test = { proposal: `/client/proposal.json`, account: `/client/${ACCOUNT}/account.json`, project: `/client/${ACCOUNT}/${PROJECT}/project.json` },
 		live = { account: `//client.inventumdigital.com:8888/joyre/account.json`, scope: `//client.inventumdigital.com:8888/joyre/q1-2020/scope.json`, project: `//client.inventumdigital.com:8888/joyre/q1-2020/project.json` };
 
 	const render = { templateId: `[data-template]`, targetId: `[data-source]`, class: `ready` };

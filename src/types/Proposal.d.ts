@@ -3,7 +3,7 @@ import Account from "./Account";
 import Project from "./Project";
 
 export default interface Proposal {
-	meta?: Meta;
+	meta: Meta;
 	account: Account;
 	project: Project;
 }

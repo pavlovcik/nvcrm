@@ -1,6 +1,34 @@
 import Proposal from '../../../../types/Proposal';
+import Account from '../../../../types/Account';
 import resolver from "../converter/resolver";
+import Meta from '../../../../types/Meta';
+import Project from '../../../../types/Project';
 import compile from '../converter/compile';
+
+const check = {
+	meta: (m: Meta): boolean => {
+		if (!m?.type) return false
+		if (!m?.updated) return false
+		if (!m?.source) return false
+		if (!m?.name) return false
+		return true
+	},
+	account: (a: Account): boolean => {
+		if (!a?.meta) return false
+		if (!a?.client) return false
+		if (!a?.agent) return false
+		return true
+	},
+	project: (p: Project): boolean => {
+		if (!p?.meta) return false
+		if (!p?.start) return false
+		if (!p?.deposit) return false
+		if (!p?.reason) return false
+		if (!p?.services) return false
+		return true
+	}
+}
+
 
 /** ====================== **/
 
@@ -14,7 +42,20 @@ export const browser = {
 		}
 	})(),
 	load(): Proposal {
-		return this._state;
+		// This should confirm integrity of saved proposal. If corrupted, scrap it.
+		let o = this._state as Proposal;
+		let integrity = {
+			meta: check.meta(o.meta),
+			account: check.account(o.account),
+			project: check.project(o.project)
+		};
+
+		if (integrity.account && integrity.project) {
+			if (!integrity.meta) o = compile(o);	//	Can regenerate meta
+			return o
+		}
+
+		return null
 	},
 	write(proposal: Proposal) {
 		if ("proposal" !== proposal?.meta?.type) throw new TypeError(`Refuse to write non-proposal object to proposal store.`);
