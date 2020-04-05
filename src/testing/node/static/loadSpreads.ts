@@ -1,6 +1,6 @@
 function Spread(html: string, id: string) {
     let section = document.createElement("section");
-    let article = document.createElement("article");
+    let article: any = document.createElement("article");
     section.appendChild(article);
     article = article.attachShadow({ mode: 'open' });
     article.innerHTML = html;

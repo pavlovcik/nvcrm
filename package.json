@@ -8,13 +8,17 @@
     "url": "https://github.com/pavlovcik/nvcrm.git"
   },
   "scripts": {
+
+    "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node --cache-dir .cache",
+    "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static --target browser --cache-dir .cache",
+
+    "_build-node": "parcel --cache-dir .cache build ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
+    "_build-browser": "parcel --cache-dir .cache build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
-    "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
-    "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
-    "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
-    "build-browser": "parcel build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
+
+
     "start": "node ./dist/testing/node/",
     "debug": "nodemon --inspect ./dist/testing/node/ --ignore */testing/node/static/client --verbose",
     "build-docs": "npx --no-install typedoc ./src/ --exclude node_modules --ignoreCompilerErrors --target ES6",

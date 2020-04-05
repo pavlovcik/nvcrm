@@ -35,10 +35,13 @@ trap quitProcess EXIT # INT TERM
 # rsync -a src/testing/node/static/spreads dist/testing/node/static/
 # rsync -a src/testing/node/static/styles dist/testing/node/static/
 
-screen -dmS 'watch-node' bash -c 'parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node'
+screen -dmS 'watch-node' bash -c 'npm run-script watch-node'
 echo "      > screen started: 'watch-node'"
-screen -dmS 'watch-browser' bash -c 'parcel watch ./src/testing/node/static/styled/index.html --out-dir ./dist/testing/node/static --target browser'
+screen -dmS 'watch-browser' bash -c 'npm run-script watch-browser'
 echo "      > screen started: 'watch-browser'"
+
+# screen -dmS 'watch' bash -c 'npm run-script watch'
+# echo "      > screen started: 'watch'"
 
 # mountReloader()
 

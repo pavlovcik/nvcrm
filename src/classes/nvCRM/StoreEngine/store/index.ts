@@ -1,5 +1,5 @@
 import { Environment } from "../../setup";
-import * as adapters from "./adapters";
+import adapters from "./adapters";
 
 import converter from "../converter";
 import resolver from "../converter/resolver";
