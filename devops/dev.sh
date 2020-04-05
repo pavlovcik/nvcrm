@@ -6,6 +6,12 @@
 #     fswatch -o . | while read f; do reload; done
 # }
 
+function rebuildCSS() {
+    # ScriptLoc=/Users/Pavlovcik/repos/personal/nvcrm/devops/dev.sh
+    alias rebuild='npm run-script build-browser'
+    fswatch -o . | while read f; do rebuild; done
+}
+
 function quitProcess() {
     echo
     echo

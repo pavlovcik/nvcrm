@@ -10,10 +10,11 @@
   "scripts": {
 
     "watch-node": "parcel watch ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node --cache-dir .cache",
-    "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static --target browser --cache-dir .cache",
+         "build-node": "parcel build ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node --cache-dir .cache",
 
-    "_build-node": "parcel --cache-dir .cache build ./src/testing/node/index.ts --out-dir ./dist/testing/node --target node",
-    "_build-browser": "parcel --cache-dir .cache build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static/ --target browser",
+    "watch-browser": "parcel watch ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static --target browser --cache-dir .cache",
+         "build-browser": "parcel build ./src/testing/node/static/index.html --out-dir ./dist/testing/node/static --target browser --cache-dir .cache",
+
     "patch": "npm version patch",
     "minor": "npm version minor",
     "major": "npm version major",
