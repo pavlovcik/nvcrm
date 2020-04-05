@@ -32,8 +32,8 @@ background > grid {
 	/* position: absolute; */
 	display: block;
 	margin: 24px;
-	height: calc(100vh - 24px);
-	width: calc(100vw - 24px);
+	height: calc(100vh - 48px);
+	width: calc(100vw - 48px);
 }
 
 hr {
@@ -227,7 +227,7 @@ toolbar button {
 	display: block;
 	background-repeat: no-repeat;
 	background-position: center;
-	width: 72px;
+	width: 96px;
 }
 
 toolbar button:last-of-type {
@@ -318,10 +318,8 @@ ol > li::before {
 	font-weight: 100;
 }
 
-
 [data-source*="project.services[0]"]
 /* , */
-/* [data-source*="project.services[0].deliverables[0]"] */
-{
-    background: #202020;
+/* [data-source*="project.services[0].deliverables[0]"] */ {
+	background: #202020;
 }

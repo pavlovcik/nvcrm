@@ -13,9 +13,9 @@ const PROJECT = `q2-2020`;
 
 const
 	test = {
-		proposal: `/client/proposal.json`,
-		account: `/client/${ACCOUNT}/account.json`,
-		project: `/client/${ACCOUNT}/${PROJECT}/project.json`
+		proposal: `/clients/proposal.json`,
+		account: `/clients/${ACCOUNT}/account.json`,
+		project: `/clients/${ACCOUNT}/${PROJECT}/project.json`
 	},
 	live = {
 		account: `//client.inventumdigital.com:8888/joyre/account.json`,
@@ -26,7 +26,13 @@ const
 const render = { templateId: `[data-template]`, targetId: `[data-source]`, class: `ready` };
 
 
-(function () {
+(async function () {
+
+	// ( function(){
+	let clients = await (await fetch(`/clients/`)).json();
+	console.log({ clients });
+	// })();
+
 
 	nvCRM(test.account, test.project).then(callback);
 

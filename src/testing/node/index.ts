@@ -8,6 +8,7 @@ const server = express();
 const staticPath = path.join(`dist`, `testing`, `node`, `static`);
 
 server.use(bodyParser.json());
+
 server.use(express.static(staticPath));
 server.all(`/clients`, clientsHandle);
 

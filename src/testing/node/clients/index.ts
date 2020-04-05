@@ -2,25 +2,53 @@ import express, { Request, Response } from "express";
 import path from "path";
 import fs from "fs";
 import { NextFunction } from "express";
-
-let clientsBasePath = path.join(__dirname, `client`);
-
 import nvCRM from "../../../classes/nvCRM/index";
 
+const CLIENTS_BASE_PATH = path.join(__dirname, `clients`);
+const fsp = require('fs').promises;
+
+async function scan2(directoryName = './data', results = []) {
+	let files = await fsp.readdir(directoryName, { withFileTypes: true });
+	for (let f of files) {
+		let fullPath = path.join(directoryName, f.name);
+		if (f.isDirectory()) {
+			await scan2(fullPath, results);
+		} else {
+			results.push(fullPath);
+		}
+	}
+	return results;
+}
+
 const HANDLERS = {
-	GET: async function GET(request, response, next) {
+	GET: GET(),
+	POST: POST()
+};
 
-		fs.readdir(clientsBasePath, "utf8", (err: NodeJS.ErrnoException, files: string[]) => {
-			console.log(clientsBasePath);
-			console.log(`\t`, files);
 
-			return response.json({ clientsBasePath, files });
 
-		});
+export default (request: Request, response: Response, next: NextFunction) => {
+	const METHOD = request.method;
+	if (HANDLERS[METHOD]) {
+		return HANDLERS[METHOD](request, response, next);
+	} else {
+		response.sendStatus(500);
+		return next();
+	}
+};
 
-	},
-	POST: async function POST(request, response, next) {
 
+
+
+
+ensureDirectoryExists(CLIENTS_BASE_PATH, `0744`, function (err) {
+	if (err) throw new Error(err) // handle folder creation error
+	// else // we're all good
+});
+
+
+function POST() {
+	return async function POST(request, response, next) {
 		try {
 			const crm = await nvCRM(request.body);
 			return ok(crm);
@@ -28,45 +56,33 @@ const HANDLERS = {
 		catch (e) {
 			return fail(e);
 		}
-
 		function ok(crm) {
 			console.log(new Date());
 			console.log(`*** proposal received ***`);
 			console.log(JSON.stringify(crm.store.load(crm.store._state), null, "\t"));
 			return response.sendStatus(200);
 		}
-
 		function fail(e) {
 			response.sendStatus(500);
 			throw e;
 		}
+	};
+}
 
-	}
-};
-
-
-
-export default (request: Request, response: Response, next: NextFunction) => {
-	const METHOD = request.method;
-
-	if (HANDLERS[METHOD]) {
-		return HANDLERS[METHOD](request, response, next);
-	} else {
-		response.sendStatus(500);
-		return next();
-	}
-
-};
-
-
-
-
-
-ensureDirectoryExists(clientsBasePath, `0744`, function (err) {
-	if (err) throw new Error(err) // handle folder creation error
-	// else // we're all good
-});
-
+function GET() {
+	return async function GET(request, response, next) {
+		let rawPaths = await scan2(CLIENTS_BASE_PATH);
+		let x = rawPaths.length;
+		let newPaths = [];
+		while (x--) {
+			let shortPath = rawPaths[x].replace(CLIENTS_BASE_PATH, ``);
+			if (!shortPath.includes(`/.`)) {
+				newPaths.push(shortPath);
+			}
+		}
+		response.json(newPaths);
+	};
+}
 
 function ensureDirectoryExists(path, mask, cb) {
 	if (typeof mask == 'function') { // allow the `mask` parameter to be optional

@@ -1,0 +1,25 @@
+{
+    "meta": {
+        "type": "account",
+        "updated": "",
+        "source": "",
+        "name": "KL"
+    },
+    "client": {
+        "contact": {
+            "name": "Jens Willemen",
+            "role": "Founder, President",
+            "email": "jens@kaironlabs.com",
+            "phone": "‭+32472896928‬"
+        },
+        "entity": {
+            "dba": "Kairon Labs",
+            "name": "Kairon Labs Bvd."
+        }
+    },
+    "agent": {
+        "name": "Alexander V. Pavlovcik",
+        "role": "Co-Founder, Principal Consultant",
+        "email": "alexander@inventum.digital"
+    }
+}

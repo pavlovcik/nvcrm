@@ -1,0 +1,66 @@
+{
+    "meta": {
+        "type": "project",
+        "updated": "",
+        "source": "",
+        "name": "Q2-2020"
+    },
+    "start": "2020-4-13",
+    "deposit": 5000,
+    "reason": "completing the project, according to the deliverables mentioned below",
+    "services": [
+        {
+            "title": "Software Development",
+            "description": "Implementation based on the provided technical specification.",
+            "budget": 5000,
+            "duration": {
+                "weeks": 4,
+                "track": 0
+            },
+            "deliverables": [
+                {
+                    "title": "A working website",
+                    "description": "this is important"
+                }
+            ]
+        },
+        {
+            "title": "Software Documentation",
+            "description": "Ensure that all development configurations and environments are properly documented for future developer handoff.",
+            "budget": 3000,
+            "duration": {
+                "weeks": 2,
+                "track": 0
+            },
+            "deliverables": [
+                {
+                    "title": "Technical Specification",
+                    "description": "This document clearly lists every feature and task that the developer must include to ensure a smooth, client approved, development cycle."
+                },
+                {
+                    "title": "Annotated Code",
+                    "description": "Complicated functions and files will have annotations to better describe details for new developers to pick up where we left off."
+                }
+            ]
+        },
+        {
+            "title": "SEO Research",
+            "description": "Competitor analysis of keywords and tactics.",
+            "budget": 2000,
+            "duration": {
+                "weeks": 2,
+                "track": 0
+            },
+            "deliverables": [
+                {
+                    "title": "SEO Talent",
+                    "description": "I'll subcontract a specialist."
+                },
+                {
+                    "title": "SEO Report",
+                    "description": "This will provide us all the information we need in order to implement an SEO plan."
+                }
+            ]
+        }
+    ]
+}
