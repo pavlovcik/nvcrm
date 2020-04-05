@@ -41,6 +41,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "fs-extra": "^8.1.0",
+    "src": "^1.1.2",
     "url": "^0.11.0"
   }
 }
