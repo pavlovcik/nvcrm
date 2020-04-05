@@ -54,7 +54,7 @@ br {
 
 button {
 	-webkit-appearance: none;
-	background-color: #ffffff20;
+	background-color: #ffffff10;
 	border: none;
 	height: 48px;
 	width: 96px;
@@ -142,9 +142,10 @@ button:active {
 }
 
 [data-source][contenteditable="true"] {
-	background: #ffffff20;
+	background: #ffffff10;
 	text-transform: none;
 	border-radius: 3px;
+	color: #80ffff;
 }
 
 [data-source][contenteditable="true"]:hover {
@@ -159,7 +160,6 @@ toolbar {
 
 [data-source][contenteditable="false"] {
 }
-
 
 html {
 	color: #fff;
@@ -309,11 +309,19 @@ ol {
 }
 ol > li::before {
 	counter-increment: section;
-    content: counter(section) ". ";
-    position: relative;
-    float: left;
-    font-size: 24px;
-    color: #808080;
-    padding: 0 6px 24px 12px;
-    font-weight: 100;
+	content: counter(section) ". ";
+	position: relative;
+	float: left;
+	font-size: 24px;
+	color: #808080;
+	padding: 0 6px 24px 12px;
+	font-weight: 100;
+}
+
+
+[data-source*="project.services[0]"]
+/* , */
+/* [data-source*="project.services[0].deliverables[0]"] */
+{
+    background: #202020;
 }

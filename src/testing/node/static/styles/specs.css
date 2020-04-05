@@ -1,3 +1,16 @@
-#Specs {
-    background-color: #ffffff20;
+:host {
+	background-color: #ffffff10;
+}
+
+:host p::before {
+	content: attr(title);
+	color: #808080;
+	line-height: 1;
+	margin-right: 24px;
+	text-transform: capitalize;
+	display: block;
+}
+
+:host p {
+	margin: 8px;
 }

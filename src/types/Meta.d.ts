@@ -5,7 +5,7 @@ import Service from "./Service";
 import Account from "./Account";
 
 export type MetaDataTypesAsStrings = "client" | "proposal" | "account" | "project" | "service" | "meta";
-export type MetaDataTypesAsInterfaces = Client | Proposal | Account | Project | Service | Meta;
+export type MetaDataTypesAsInterfaces = Client | Proposal | Account | Project | Service ;
 
 export default interface Meta {
 	type: MetaDataTypesAsStrings;

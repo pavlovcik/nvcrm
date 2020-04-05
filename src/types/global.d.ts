@@ -1,5 +1,7 @@
+import { nvCRMi } from "../classes/nvCRM/setup"
+
 export { }
 
 declare global {
-    const app: any
+    const app: nvCRMi
 }

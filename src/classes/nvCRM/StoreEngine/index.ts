@@ -1,6 +1,8 @@
 import { Environment } from "../setup";
 import store from "./store";
+import Proposal from "../../../types/Proposal";
 export interface Store {
+	_state: Proposal
 	download: Function;
 	upload: Function;
 	resolve: Function;

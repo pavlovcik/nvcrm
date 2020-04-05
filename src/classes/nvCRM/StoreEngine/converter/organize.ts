@@ -35,11 +35,7 @@
 
 import Proposal from "../../../../types/Proposal";
 import { Identified } from "./identify";
-import resolve from "./resolver";
-import Meta, { MetaDataTypesAsInterfaces, MetaDataTypesAsStrings } from "../../../../types/Meta";
-import Client from "../../../../types/Client";
-import Project from "../../../../types/Project";
-import Service from "../../../../types/Service";
+import { MetaDataTypesAsInterfaces, MetaDataTypesAsStrings } from "../../../../types/Meta";
 import compile from "./compile";
 
 let getLatest = (o: MetaDataTypesAsInterfaces[]):

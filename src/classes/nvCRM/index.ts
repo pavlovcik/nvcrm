@@ -12,10 +12,15 @@ export default async function nvCRM(...mystery: any): Promise<nvCRMi> {
 	let x = mystery.length;
 	let downloaded: Proposal | void;
 
-	if (x === 1) downloaded = await responders[app.environment](mystery);
-	else downloaded = await responders[app.environment].apply(app, [...mystery]);
+	if (x === 1) {
+		downloaded = await responders[app.environment](mystery);
+	} else {
+		downloaded = await responders[app.environment].apply(app, [...mystery]);
+	}
 
-	if (typeof downloaded == void 0) throw new TypeError(`downloaded should be in Proposal format`);
+	if (typeof downloaded == void 0) {
+		throw new TypeError(`downloaded should be in Proposal format`);
+	}
 
 	app.store.write(downloaded);
 

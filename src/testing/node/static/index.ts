@@ -6,16 +6,27 @@ import Proposal from "../../../types/Proposal";
 
 import global from "./../../../types/global.d";
 
+const ACCOUNT = `kairon-labs`;
+const PROJECT = `q2-2020`;
+// const ACCOUNT = `wami`;
+// const PROJECT = `q4-2019`;
+
+const
+	test = {
+		proposal: `/client/proposal.json`,
+		account: `/client/${ACCOUNT}/account.json`,
+		project: `/client/${ACCOUNT}/${PROJECT}/project.json`
+	},
+	live = {
+		account: `//client.inventumdigital.com:8888/joyre/account.json`,
+		scope: `//client.inventumdigital.com:8888/joyre/q1-2020/scope.json`,
+		project: `//client.inventumdigital.com:8888/joyre/q1-2020/project.json`
+	};
+
+const render = { templateId: `[data-template]`, targetId: `[data-source]`, class: `ready` };
+
+
 (function () {
-	const ACCOUNT = `kairon-labs`;
-	const PROJECT = `q2-2020`;
-	// const ACCOUNT = `wami`;
-	// const PROJECT = `q4-2019`;
-
-	const test = { proposal: `/client/proposal.json`, account: `/client/${ACCOUNT}/account.json`, project: `/client/${ACCOUNT}/${PROJECT}/project.json` },
-		live = { account: `//client.inventumdigital.com:8888/joyre/account.json`, scope: `//client.inventumdigital.com:8888/joyre/q1-2020/scope.json`, project: `//client.inventumdigital.com:8888/joyre/q1-2020/project.json` };
-
-	const render = { templateId: `[data-template]`, targetId: `[data-source]`, class: `ready` };
 
 	nvCRM(test.account, test.project).then(callback);
 
@@ -63,15 +74,19 @@ import global from "./../../../types/global.d";
 			new RenderEngine(render.templateId, nvcrm.store.load(), true).render(render.targetId, render.class);
 		}
 
-		async function downloadFromServer(): Promise<Proposal> {
-			let account = await fetch(test.account);
-			let project = await fetch(test.project);
-			// let meta = { type: "proposal", updated: "TEST", source: "TEST", name: "TEST" }	// @FIXME: Not sure what to do here or if it matters
-			return {
-				// meta,
-				account: await account.json(),
-				project: await project.json()
-			}
+		function downloadFromServer(...urls: string[]) {
+			let downloaded = urls.map(async u => await fetch(u));
+			downloaded.map(async o => (await o).json());
+			nvCRM(downloaded);
+			// let meta = await fetch(test.meta);
+			// let account = await fetch(test.account);
+			// let project = await fetch(test.project);
+			// // let meta = { type: "proposal", updated: "TEST", source: "TEST", name: "TEST" }	// @FIXME: Not sure what to do here or if it matters
+			// return {
+			// 	meta: await meta.json(),
+			// 	account: await account.json(),
+			// 	project: await project.json()
+			// }
 		}
 
 		function saveChangeHandler() {

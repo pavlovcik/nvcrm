@@ -1,0 +1,10 @@
+{
+    "ignore": [
+    ],
+    "events": {
+        "config": "exit",
+        "exit": "",
+        "restart": "clear",
+        "start": "clear"
+    }
+}
